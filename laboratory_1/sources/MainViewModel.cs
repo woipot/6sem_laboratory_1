@@ -31,6 +31,7 @@ namespace laboratory_1.sources
             {
                 _firstModel.BitNum = value;
                 OnPropertyChanged("SelectedBit");
+                OnPropertyChanged("Checked");
             }
         }
 
@@ -39,5 +40,15 @@ namespace laboratory_1.sources
             get => _firstModel.SelectedBit;
         }
 
+        public bool Checked
+        {
+            get => _firstModel.Checked;
+            set
+            {
+                _firstModel.Checked = value;
+                OnPropertyChanged("Input32");  
+                OnPropertyChanged("SelectedBit");
+            }
+        }
     }
 }

@@ -28,6 +28,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" FontSize="15" Content="#1" HorizontalAlignment="Center"/>
@@ -44,13 +45,14 @@
                         <Grid Grid.Row="2" Margin="20">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.25*"/>
+                                <ColumnDefinition Width="0.7*"/>
+                                <ColumnDefinition Width="0.3*"/>
                             </Grid.ColumnDefinitions>
                             <xctk:ShortUpDown Value="{Binding BitNum}" Maximum="32" Minimum="0" Watermark="Enter bite position" ClipValueToMinMax="True"/>
                             <TextBlock Grid.Column="2" Text="{Binding SelectedBit}" Margin="10, 0, 0, 0 "/>
                         </Grid>
 
+                        <CheckBox IsChecked="{Binding Checked}" Margin="20" Grid.Row="3" Content="bit is on"/>
 
                     </Grid>
                 </Border>

@@ -1,4 +1,5 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using System.Text;
+using Microsoft.Practices.Prism.Mvvm;
 
 namespace laboratory_1.sources.mvvm
 {
@@ -26,6 +27,26 @@ namespace laboratory_1.sources.mvvm
                 if (_bitNum <= _input32.Length && _bitNum != 0)
                     return _input32[_bitNum - 1].ToString();
                 return "";
+            }
+        }
+
+        public bool Checked
+        {
+            get
+            {
+                if (_bitNum <= _input32.Length && _bitNum != 0)
+                    return _input32[_bitNum - 1] == '1';
+                return false;
+            }
+        
+            set
+            {
+                if (_bitNum <= _input32.Length && _bitNum != 0)
+                { 
+                    var sb = new StringBuilder(Input32);
+                    sb[_bitNum - 1] = value ? '1' : '0';
+                    Input32 = sb.ToString();
+                }
             }
         }
 
