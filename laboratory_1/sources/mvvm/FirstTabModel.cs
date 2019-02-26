@@ -50,10 +50,34 @@ namespace laboratory_1.sources.mvvm
             }
         }
 
+        public int SwapLeft { get; set; }
+        public int SwapRight { get; set; }
+
         public FirstTabModel()
         {
             _bitNum = 0;
             _input32 = "";
+
+            SwapLeft = 1;
+            SwapRight = 1;
+        }
+
+        public bool Swap()
+        {
+            if (SwapLeft == SwapRight)
+                return false;
+
+            if (SwapLeft > _input32.Length || SwapRight > _input32.Length)
+                return false;
+
+            var sb = new StringBuilder(_input32);
+            var tmpChar = sb[SwapLeft - 1];
+            sb[SwapLeft - 1] = sb[SwapRight - 1];
+            sb[SwapRight - 1] = tmpChar;
+
+            _input32 = sb.ToString();
+
+            return true;
         }
     }
 }

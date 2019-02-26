@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using laboratory_1.sources.mvvm;
+using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Xceed.Wpf.Toolkit;
 
 namespace laboratory_1.sources
 {
@@ -16,6 +18,8 @@ namespace laboratory_1.sources
             _firstModel = new FirstTabModel();
             _secondModel = new TabSecondModel();
             _thirdModel = new TabThirdModel();
+
+            SwapCommand = new DelegateCommand(Swap);
         }
 
         public string Input32
@@ -48,6 +52,36 @@ namespace laboratory_1.sources
                 _firstModel.Checked = value;
                 OnPropertyChanged("Input32");  
                 OnPropertyChanged("SelectedBit");
+            }
+        }
+
+        public int SwapLeft
+        {
+            get => _firstModel.SwapLeft;
+            set => _firstModel.SwapLeft = value;
+        }
+
+        public int SwapRight
+        {
+            get => _firstModel.SwapRight;
+            set => _firstModel.SwapRight = value;
+        }
+
+        public DelegateCommand SwapCommand { get; }
+
+        private void Swap()
+        {
+            var res = _firstModel.Swap();
+
+            if (res)
+            {
+                OnPropertyChanged("Input32");
+                OnPropertyChanged("SelectedBit");
+                OnPropertyChanged("Checked");
+            }
+            else
+            {
+                MessageBox.Show(App.Current.MainWindow, "Bad swap params");
             }
         }
     }
