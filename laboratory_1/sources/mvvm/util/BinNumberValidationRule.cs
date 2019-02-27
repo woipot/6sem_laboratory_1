@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace laboratory_1.sources.mvvm.util

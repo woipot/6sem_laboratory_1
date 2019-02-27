@@ -132,7 +132,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
-                <StackPanel Grid.Column="0" Orientation="Vertical">
+                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
                     <StackPanel Orientation="Vertical">
                         <Label Content="#4" HorizontalAlignment="Center" FontSize="20"/>
                         <Grid>
@@ -157,8 +157,32 @@
                         </Grid>
                         
                     </StackPanel>
-                    
-                    
+
+                    <StackPanel Orientation="Vertical" Margin="0,40">
+                        <Label Content="#5" HorizontalAlignment="Center" FontSize="20"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBox>
+                                <TextBox.Text>
+                                    <Binding Path="InputToFindLimits" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <util:NumberValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            
+                            <TextBlock Grid.Column="1" TextAlignment="Center" Text="{Binding Limits}"/>
+                            
+                        </Grid>
+
+                    </StackPanel>
+
+
                 </StackPanel>
             </Grid>
         </TabItem>

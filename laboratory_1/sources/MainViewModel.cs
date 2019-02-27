@@ -173,7 +173,22 @@ namespace laboratory_1.sources
         }
 
         public string MaxDivider => _secondModel.MaxDivider;
+        #endregion
 
+
+        #region Tab 2 part 5
+
+        public string InputToFindLimits
+        {
+            get => _secondModel.InputToFindLimits;
+            set
+            {
+                _secondModel.InputToFindLimits = value;
+                OnPropertyChanged("Limits");
+            }
+        }
+
+        public string Limits => _secondModel.Limits;
         #endregion
     }
 }
