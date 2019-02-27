@@ -132,57 +132,87 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
-                <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
-                    <StackPanel Orientation="Vertical">
-                        <Label Content="#4" HorizontalAlignment="Center" FontSize="20"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="0.6*"/>
-                                <ColumnDefinition Width="0.5*"/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <TextBox>
-                                <TextBox.Text>
-                                    <Binding Path="InputToMaxDivider" UpdateSourceTrigger="PropertyChanged">
-                                        <Binding.ValidationRules>
-                                            <util:NumberValidationRule/>
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            
-                            <Label Grid.Column="1" Content="Max Divider:"/>
-                            <TextBlock Grid.Column="2" TextAlignment="Center" Text="{Binding MaxDivider}" FontSize="15"/>
-                        </Grid>
-                        
-                    </StackPanel>
+                <Border BorderThickness="1">
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
+                        <StackPanel Orientation="Vertical">
+                            <Label Content="#4" HorizontalAlignment="Center" FontSize="20"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0.8*"/>
+                                    <ColumnDefinition Width="0.5*"/>
+                                </Grid.ColumnDefinitions>
 
-                    <StackPanel Orientation="Vertical" Margin="0,40">
-                        <Label Content="#5" HorizontalAlignment="Center" FontSize="20"/>
+                                <TextBox>
+                                    <TextBox.Text>
+                                        <Binding Path="InputToMaxDivider" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <util:NumberValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <Label Grid.Column="1" Content="Max Divider:"/>
+                                <TextBlock Grid.Column="2" TextAlignment="Center" Text="{Binding MaxDivider}" FontSize="15"/>
+                            </Grid>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical" Margin="0,40">
+                            <Label Content="#5" HorizontalAlignment="Center" FontSize="20"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox>
+                                    <TextBox.Text>
+                                        <Binding Path="InputToFindLimits" UpdateSourceTrigger="PropertyChanged">
+                                            <Binding.ValidationRules>
+                                                <util:NumberValidationRule/>
+                                            </Binding.ValidationRules>
+                                        </Binding>
+                                    </TextBox.Text>
+                                </TextBox>
+
+                                <TextBlock FontSize="15" Grid.Column="1" TextAlignment="Center" Text="{Binding Limits}"/>
+
+                            </Grid>
+
+                        </StackPanel>
+
+
+                    </StackPanel>
+                </Border>
+                
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Margin="20">
+                        <Label Content="#6" HorizontalAlignment="Center" FontSize="20"/>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="2*"/>
                             </Grid.ColumnDefinitions>
-
                             <TextBox>
                                 <TextBox.Text>
-                                    <Binding Path="InputToFindLimits" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding Path="InputP" UpdateSourceTrigger="PropertyChanged">
                                         <Binding.ValidationRules>
                                             <util:NumberValidationRule/>
                                         </Binding.ValidationRules>
                                     </Binding>
                                 </TextBox.Text>
                             </TextBox>
-                            
-                            <TextBlock Grid.Column="1" TextAlignment="Center" Text="{Binding Limits}"/>
-                            
+
+                            <TextBlock Grid.Column="1" TextAlignment="Center" Text="{Binding NumP}"/>
                         </Grid>
+                        <Label Margin="0, 30, 0, 0" Content="Xor result:"/>
+                        <TextBlock TextAlignment="Center" Text="{Binding XorResult}"/> 
 
                     </StackPanel>
-
-
+                    
+                    
                 </StackPanel>
             </Grid>
         </TabItem>

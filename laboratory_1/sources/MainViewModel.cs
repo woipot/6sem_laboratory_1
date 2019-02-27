@@ -80,6 +80,34 @@ namespace laboratory_1.sources
         public DelegateCommand SwapCommand { get; }
         public DelegateCommand ZeroCommand { get; }
 
+        private void Swap()
+        {
+            var res = _firstModel.Swap();
+
+            if (res)
+            {
+                OnPropertyChanged("Input32");
+                OnPropertyChanged("SelectedBit");
+                OnPropertyChanged("Checked");
+            }
+            else
+            {
+                MessageBox.Show(App.Current.MainWindow, "Bad swap params");
+            }
+        }
+
+        private void Zero()
+        {
+            _firstModel.ToZero();
+            OnPropertyChanged("Input32");
+            OnPropertyChanged("SelectedBit");
+            OnPropertyChanged("Checked");
+        }
+
+        #endregion
+
+
+        #region Tab 1 part 2
         public string InputN
         {
             get => _firstModel.InputN;
@@ -119,37 +147,6 @@ namespace laboratory_1.sources
         public string MidleTrim => _firstModel.MidleTrim;
 
 
-        private void Swap()
-        {
-            var res = _firstModel.Swap();
-
-            if (res)
-            {
-                OnPropertyChanged("Input32");
-                OnPropertyChanged("SelectedBit");
-                OnPropertyChanged("Checked");
-            }
-            else
-            {
-                MessageBox.Show(App.Current.MainWindow, "Bad swap params");
-            }
-        }
-
-        private void Zero()
-        {
-            _firstModel.ToZero();
-            OnPropertyChanged("Input32");
-            OnPropertyChanged("SelectedBit");
-            OnPropertyChanged("Checked");
-        }
-
-        #endregion
-
-
-        #region Tab 1 part 2
-
-
-
         #endregion
 
 
@@ -158,7 +155,6 @@ namespace laboratory_1.sources
 
 
         #endregion
-
 
 
         #region Tab 2 part 4 
@@ -189,6 +185,28 @@ namespace laboratory_1.sources
         }
 
         public string Limits => _secondModel.Limits;
+
+        #endregion
+
+
+        #region Tab 2 part 6
+
+        public string InputP
+        {
+            get => _secondModel.InputP;
+
+            set
+            {
+                _secondModel.InputP = value;
+                OnPropertyChanged("NumP");
+                OnPropertyChanged("XorResult");
+            }
+        }
+
+        public string NumP => _secondModel.NumP;
+
+        public string XorResult => _secondModel.XorResult;
+
         #endregion
     }
 }
