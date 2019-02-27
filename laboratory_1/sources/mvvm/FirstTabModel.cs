@@ -8,6 +8,14 @@ namespace laboratory_1.sources.mvvm
         private string _input32;
         private int _bitNum;
 
+        private string _inputN;
+
+        public string InputN
+        {
+            get => _inputN;
+            set => _inputN = value;
+        }
+
         public string Input32
         {
             get => _input32;
@@ -55,6 +63,62 @@ namespace laboratory_1.sources.mvvm
 
         public int ToZeroNum { get; set; }
 
+        public int LeftTrim
+        {
+            get;
+            set;
+        }
+
+        public int RightTrim
+        {
+            get;
+            set;
+        }
+
+        public string EndsTrim
+        {
+            get
+            {
+                var sb = new StringBuilder(InputN);
+
+                if (LeftTrim + RightTrim <= sb.Length)
+                {
+
+                    var resultSb = new StringBuilder();
+
+                    for (var i = 0; i < LeftTrim; i++)
+                        resultSb.Append(sb[i]);
+
+                    for (var i = sb.Length - RightTrim; i < sb.Length; i++)
+                        resultSb.Append(sb[i]);
+
+                    return resultSb.ToString();
+                }
+
+                return "";
+            }
+        }
+
+        public string MidleTrim
+        {
+            get
+            {
+                var sb = new StringBuilder(InputN);
+
+                if ( sb.Length - LeftTrim - RightTrim > 0 )
+                {
+                    var resultSb = new StringBuilder();
+
+                    for (var i = LeftTrim; i < sb.Length - RightTrim; i++)
+                        resultSb.Append(sb[i]);
+
+                    return resultSb.ToString();
+                }
+
+                return "";
+            }
+        }
+
         public FirstTabModel()
         {
             _bitNum = 0;
@@ -62,6 +126,10 @@ namespace laboratory_1.sources.mvvm
 
             SwapLeft = 1;
             SwapRight = 1;
+            ToZeroNum = 1;
+
+            LeftTrim = 1;
+            RightTrim = 1;
         }
 
         public bool Swap()
@@ -95,5 +163,7 @@ namespace laboratory_1.sources.mvvm
 
             Input32 = sb.ToString();
         }
+
+
     }
 }

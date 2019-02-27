@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace laboratory_1.sources.mvvm.util
 {
-    public class NumberValidationRule : ValidationRule
+    public class BinNumberValidationRule : ValidationRule
     {
         public override ValidationResult Validate(object value, System.Globalization.CultureInfo cultureInfo)
         {

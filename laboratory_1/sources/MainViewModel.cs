@@ -23,6 +23,7 @@ namespace laboratory_1.sources
             ZeroCommand = new DelegateCommand(Zero);
         }
 
+        #region Tab 1 part 1
 
         public string Input32
         {
@@ -52,7 +53,7 @@ namespace laboratory_1.sources
             set
             {
                 _firstModel.Checked = value;
-                OnPropertyChanged("Input32");  
+                OnPropertyChanged("Input32");
                 OnPropertyChanged("SelectedBit");
             }
         }
@@ -75,8 +76,47 @@ namespace laboratory_1.sources
             set => _firstModel.ToZeroNum = value;
         }
 
+
         public DelegateCommand SwapCommand { get; }
         public DelegateCommand ZeroCommand { get; }
+
+        public string InputN
+        {
+            get => _firstModel.InputN;
+            set
+            {
+                _firstModel.InputN = value;
+                OnPropertyChanged("EndsTrim");
+                OnPropertyChanged("MidleTrim");
+            }
+        }
+
+        public int LeftTrim
+        {
+            get => _firstModel.LeftTrim;
+            set
+            {
+                _firstModel.LeftTrim = value;
+                OnPropertyChanged("EndsTrim");
+                OnPropertyChanged("MidleTrim");
+            }
+
+        }
+
+        public int RightTrim
+        {
+            get => _firstModel.RightTrim;
+            set
+            {
+                _firstModel.RightTrim = value;
+                OnPropertyChanged("EndsTrim");
+                OnPropertyChanged("MidleTrim");
+            }
+        }
+
+        public string EndsTrim => _firstModel.EndsTrim;
+
+        public string MidleTrim => _firstModel.MidleTrim;
 
 
         private void Swap()
@@ -102,5 +142,14 @@ namespace laboratory_1.sources
             OnPropertyChanged("SelectedBit");
             OnPropertyChanged("Checked");
         }
+
+        #endregion
+
+
+        #region Tab 1 part 2
+
+
+
+        #endregion
     }
 }

@@ -104,7 +104,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="sources\mvvm\util\NumberValidationRule.cs" />
+    <Compile Include="sources\mvvm\util\BinNumberValidationRule.cs" />
     <Compile Include="sources\MainViewModel.cs" />
     <Compile Include="sources\mvvm\FirstTabModel.cs" />
     <Compile Include="sources\mvvm\TabSecondModel.cs" />

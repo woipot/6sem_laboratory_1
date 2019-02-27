@@ -38,7 +38,7 @@
                             <TextBox.Text>
                                 <Binding Path="Input32">
                                     <Binding.ValidationRules>
-                                        <util:NumberValidationRule/>
+                                        <util:BinNumberValidationRule/>
                                     </Binding.ValidationRules>
                                 </Binding>
                             </TextBox.Text>
@@ -78,13 +78,54 @@
 
                     </Grid>
                 </Border>
+
+                <StackPanel Grid.Column="1" Orientation="Vertical">
+                    <Label FontSize="15" Content="#2" HorizontalAlignment="Center"/>
+                    
+                    <TextBox Margin="20">
+                        <TextBox.Text>
+                            <Binding Path="InputN">
+                                <Binding.ValidationRules>
+                                    <util:BinNumberValidationRule/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Grid Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Left Limit"/>
+                        <Label Content="Right Limit" Grid.Row="0" Grid.Column="2"/>
+
+                        <xctk:ShortUpDown Grid.Row="1" Grid.Column="0" Value="{Binding LeftTrim}" Maximum="32" Minimum="1" Watermark="Enter bite position" ClipValueToMinMax="True"/>
+                        <xctk:ShortUpDown Grid.Row="1"  Grid.Column="2" Value="{Binding RightTrim}" Maximum="32" Minimum="1" Watermark="Enter bite position" ClipValueToMinMax="True"/>
+                    </Grid>
+                    
+                    <StackPanel Orientation="Horizontal" Margin="20">
+                        <Label Content="Ends:"/>
+                        <TextBlock Text="{Binding EndsTrim}" TextAlignment="Center"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="20">
+                        <Label Content="Midle:"/>
+                        <TextBlock Text="{Binding MidleTrim}" TextAlignment="Center"/>
+                    </StackPanel>
+
+                </StackPanel>
             </Grid>
         </TabItem>
         
         <TabItem Header="Part 2">
-
-
-
+            
         </TabItem>
 
         <TabItem Header="Part 3">
