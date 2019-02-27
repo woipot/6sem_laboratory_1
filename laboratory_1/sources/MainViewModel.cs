@@ -20,7 +20,9 @@ namespace laboratory_1.sources
             _thirdModel = new TabThirdModel();
 
             SwapCommand = new DelegateCommand(Swap);
+            ZeroCommand = new DelegateCommand(Zero);
         }
+
 
         public string Input32
         {
@@ -67,7 +69,15 @@ namespace laboratory_1.sources
             set => _firstModel.SwapRight = value;
         }
 
+        public int ToZeroNum
+        {
+            get => _firstModel.ToZeroNum;
+            set => _firstModel.ToZeroNum = value;
+        }
+
         public DelegateCommand SwapCommand { get; }
+        public DelegateCommand ZeroCommand { get; }
+
 
         private void Swap()
         {
@@ -83,6 +93,14 @@ namespace laboratory_1.sources
             {
                 MessageBox.Show(App.Current.MainWindow, "Bad swap params");
             }
+        }
+
+        private void Zero()
+        {
+            _firstModel.ToZero();
+            OnPropertyChanged("Input32");
+            OnPropertyChanged("SelectedBit");
+            OnPropertyChanged("Checked");
         }
     }
 }

@@ -30,6 +30,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
                         <Label Grid.Row="0" FontSize="15" Content="#1" HorizontalAlignment="Center"/>
@@ -64,6 +65,15 @@
                             <xctk:ShortUpDown Value="{Binding SwapLeft}" Maximum="32" Minimum="1" Watermark="Enter bite position" ClipValueToMinMax="True"/>
                             <xctk:ShortUpDown Grid.Column="1" Value="{Binding SwapRight}" Maximum="32" Minimum="1" Watermark="Enter bite position" ClipValueToMinMax="True"/>
                             <Button Grid.Column="2" Content="Swap" Command="{Binding SwapCommand}"/>
+                        </Grid>
+
+                        <Grid Grid.Row="5" Margin="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <xctk:ShortUpDown Value="{Binding ToZeroNum}" Maximum="32" Minimum="1" Watermark="Enter bite position" ClipValueToMinMax="True"/>
+                            <Button Grid.Column="1" Content="to zero" Command="{Binding ZeroCommand}"/>
                         </Grid>
 
                     </Grid>

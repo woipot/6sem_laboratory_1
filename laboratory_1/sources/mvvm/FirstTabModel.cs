@@ -53,6 +53,8 @@ namespace laboratory_1.sources.mvvm
         public int SwapLeft { get; set; }
         public int SwapRight { get; set; }
 
+        public int ToZeroNum { get; set; }
+
         public FirstTabModel()
         {
             _bitNum = 0;
@@ -78,6 +80,20 @@ namespace laboratory_1.sources.mvvm
             _input32 = sb.ToString();
 
             return true;
+        }
+
+        public void ToZero()
+        {
+            var sb = new StringBuilder(_input32);
+
+            var counterCopy = ToZeroNum;
+
+            for (var i = sb.Length - 1; i > 0 && counterCopy > 0; counterCopy--, i--)
+            {
+                sb[i] = '0';
+            }
+
+            Input32 = sb.ToString();
         }
     }
 }
