@@ -94,10 +94,15 @@ namespace laboratory_1.sources.mvvm
                 var isNum = int.TryParse(InputP, out var num);
 
                 var nearestDegree = (int)Math.Log(num, 2);
+                var bitCount = nearestDegree + 1;
+
+                var maxNum = (int)Math.Pow(2, bitCount) - 1;
+
+                var realOffset = Offset - Offset/bitCount * bitCount; 
 
                 var res = 0;
-                if(isNum)
-                    res = (num << Offset) | (num >> (nearestDegree - Offset));
+                if (isNum)
+                    res = ((num << realOffset) & (maxNum)) | (num >> (bitCount - realOffset));
 
                 return Convert.ToString(res, 2);
             }
@@ -110,11 +115,15 @@ namespace laboratory_1.sources.mvvm
                 var isNum = int.TryParse(InputP, out var num);
 
                 var nearestDegree = (int)Math.Log(num, 2);
-                var rightLimit = nearestDegree + 1;
+                var bitCount = nearestDegree + 1;
+
+                var maxNum = (int)Math.Pow(2, bitCount) - 1;
+
+                var realOffset = Offset - Offset / bitCount * bitCount;
 
                 var res = 0;
                 if (isNum)
-                    res = (num >> Offset) | (num << (nearestDegree - Offset));
+                    res = (num >> realOffset) | ((num << (bitCount - realOffset)) & (maxNum));
 
                 return Convert.ToString(res, 2);
             }
