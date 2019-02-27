@@ -209,10 +209,35 @@
                         </Grid>
                         <Label Margin="0, 30, 0, 0" Content="Xor result:"/>
                         <TextBlock TextAlignment="Center" Text="{Binding XorResult}"/> 
-
                     </StackPanel>
-                    
-                    
+
+                    <StackPanel Orientation="Vertical" Margin="20,0">
+                        <Label Content="#7" HorizontalAlignment="Center" FontSize="20"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>    
+                            </Grid.RowDefinitions>
+
+                            <xctk:ShortUpDown Value="{Binding Offset}" Minimum="1" ClipValueToMinMax="True" Grid.ColumnSpan="2"/>
+
+                            <Label Content="To Left:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding LeftOffsetResult}" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center"/>
+                            
+                            <Label Content="To Right:" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center"/>
+                            <TextBlock Text="{Binding RightOffsetResult}" Grid.ColumnSpan="3" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Center"/>
+
+                        </Grid>
+                    </StackPanel>
+                
                 </StackPanel>
             </Grid>
         </TabItem>

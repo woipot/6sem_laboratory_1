@@ -200,12 +200,35 @@ namespace laboratory_1.sources
                 _secondModel.InputP = value;
                 OnPropertyChanged("NumP");
                 OnPropertyChanged("XorResult");
+                OnPropertyChanged("LeftOffsetResult");
+                OnPropertyChanged("RightOffsetResult");
             }
         }
 
         public string NumP => _secondModel.NumP;
 
         public string XorResult => _secondModel.XorResult;
+
+        #endregion
+
+
+        #region Tab 2 part 7
+
+        public int Offset
+        {
+            get => _secondModel.Offset;
+            set
+            {
+                _secondModel.Offset = value;
+                OnPropertyChanged("LeftOffsetResult");
+                OnPropertyChanged("RightOffsetResult");
+            }
+        }
+
+        public string LeftOffsetResult => _secondModel.LeftOffset;
+
+
+        public string RightOffsetResult => _secondModel.RightOffset;
 
         #endregion
     }

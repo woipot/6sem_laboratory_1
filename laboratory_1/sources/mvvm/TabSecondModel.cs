@@ -43,6 +43,7 @@ namespace laboratory_1.sources.mvvm
             }
         }
 
+
         public string InputP { get; set; }
 
         public string NumP
@@ -64,26 +65,61 @@ namespace laboratory_1.sources.mvvm
                 return sbResult.ToString();
             }
         }
-
-     
+        
         public string XorResult
         {
             get
             {
                 var isNum = int.TryParse(InputP, out var result);
-                var sbResult = new StringBuilder();
 
                 if (isNum)
                 {
                     var binForm = Convert.ToString(result, 2);
                     var appended = GetAppendedBits(result, binForm);
 
-                    sbResult.Append(XorItself(appended));
+                    return XorItself(appended).ToString();
                 }
 
-                return sbResult.ToString();
+                return "NaN";
             }
         }
+
+
+        public int Offset { get; set; } = 1;
+
+        public string LeftOffset
+        {
+            get
+            {
+                var isNum = int.TryParse(InputP, out var num);
+
+                var nearestDegree = (int)Math.Log(num, 2);
+
+                var res = 0;
+                if(isNum)
+                    res = (num << Offset) | (num >> (nearestDegree - Offset));
+
+                return Convert.ToString(res, 2);
+            }
+        }
+
+        public string RightOffset
+        {
+            get
+            {
+                var isNum = int.TryParse(InputP, out var num);
+
+                var nearestDegree = (int)Math.Log(num, 2);
+                var rightLimit = nearestDegree + 1;
+
+                var res = 0;
+                if (isNum)
+                    res = (num >> Offset) | (num << (nearestDegree - Offset));
+
+                return Convert.ToString(res, 2);
+            }
+        }
+
 
         private string GetAppendedBits(int num, string numBin)
         {
@@ -101,41 +137,40 @@ namespace laboratory_1.sources.mvvm
             return sb.ToString();
         }
 
-        private string XorItself(string binStr)
+        private bool XorItself(string binStr)
         {
             var boolList = FromString(binStr);
-
-            var sbResult = new StringBuilder();
 
 
             if (boolList.Count == 1)
             {
-                sbResult.Append(boolList[0] ? '1' : '0');
+                return boolList[0];
             }
             else if (boolList.Count == 2)
             {
-                sbResult.Append((boolList[0] ^ boolList[1]) ? '1' : '0');
+                return boolList[0] ^ boolList[1];
             }
             else if (boolList.Count != 0)
             {
-                for(var i = 0; i < boolList.Count; i++)
+                var current = false; 
+                for (var i = 0; i < boolList.Count; i++)
                 {
                     if (i == 0)
                     {
-                        sbResult.Append((boolList[i] ^ boolList[i + 1]) ? '1' : '0');
+                        current = boolList[i] ^ boolList[i + 1];
                         i++;
                     }
                     else
                     {
-                        var bit = sbResult[sbResult.Length - 1] == '1';
-                        sbResult.Append((bit ^ boolList[i]) ? '1' : '0');
+                        current = current ^ boolList[i];
                     }
 
                 }
+                return current;
             }
-            
 
-            return sbResult.ToString();
+
+            return false;
         }
 
         private List<bool> FromString(string str)
