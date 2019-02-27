@@ -1,6 +1,6 @@
 ﻿namespace laboratory_1.sources.mvvm
 {
-    class TabThirdModel
+    public class TabThirdModel
     {
     }
 }

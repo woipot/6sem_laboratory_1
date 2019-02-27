@@ -151,5 +151,29 @@ namespace laboratory_1.sources
 
 
         #endregion
+
+
+        #region Tab 1 part 3
+
+
+
+        #endregion
+
+
+
+        #region Tab 2 part 4 
+        public string InputToMaxDivider
+        {
+            get => _secondModel.InputToMaxDivider;
+            set
+            {
+                _secondModel.InputToMaxDivider = value;
+                OnPropertyChanged("MaxDivider");
+            } 
+        }
+
+        public string MaxDivider => _secondModel.MaxDivider;
+
+        #endregion
     }
 }

@@ -3,7 +3,7 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace laboratory_1.sources.mvvm
 {
-    class FirstTabModel : BindableBase
+    public class FirstTabModel : BindableBase
     {
         private string _input32;
         private int _bitNum;
@@ -163,7 +163,5 @@ namespace laboratory_1.sources.mvvm
 
             Input32 = sb.ToString();
         }
-
-
     }
 }

@@ -36,7 +36,7 @@
                         <Label Grid.Row="0" FontSize="15" Content="#1" HorizontalAlignment="Center"/>
                         <TextBox Grid.Row="1" Margin="20">
                             <TextBox.Text>
-                                <Binding Path="Input32">
+                                <Binding Path="Input32" UpdateSourceTrigger="PropertyChanged">
                                     <Binding.ValidationRules>
                                         <util:BinNumberValidationRule/>
                                     </Binding.ValidationRules>
@@ -84,7 +84,7 @@
                     
                     <TextBox Margin="20">
                         <TextBox.Text>
-                            <Binding Path="InputN">
+                            <Binding Path="InputN" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <util:BinNumberValidationRule/>
                                 </Binding.ValidationRules>
@@ -125,7 +125,42 @@
         </TabItem>
         
         <TabItem Header="Part 2">
-            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <StackPanel Grid.Column="0" Orientation="Vertical">
+                    <StackPanel Orientation="Vertical">
+                        <Label Content="#4" HorizontalAlignment="Center" FontSize="20"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.6*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <TextBox>
+                                <TextBox.Text>
+                                    <Binding Path="InputToMaxDivider" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <util:NumberValidationRule/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                            
+                            <Label Grid.Column="1" Content="Max Divider:"/>
+                            <TextBlock Grid.Column="2" TextAlignment="Center" Text="{Binding MaxDivider}" FontSize="15"/>
+                        </Grid>
+                        
+                    </StackPanel>
+                    
+                    
+                </StackPanel>
+            </Grid>
         </TabItem>
 
         <TabItem Header="Part 3">
