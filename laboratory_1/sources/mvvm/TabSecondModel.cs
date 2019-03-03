@@ -57,9 +57,7 @@ namespace laboratory_1.sources.mvvm
                 {
                     var binForm = Convert.ToString(result, 2);
 
-                    var appended = GetAppendedBits(result, binForm);
-
-                    sbResult.Append(appended);
+                    sbResult.Append(binForm);
                 }
 
                 return sbResult.ToString();
@@ -75,9 +73,8 @@ namespace laboratory_1.sources.mvvm
                 if (isNum)
                 {
                     var binForm = Convert.ToString(result, 2);
-                    var appended = GetAppendedBits(result, binForm);
 
-                    return XorItself(appended).ToString();
+                    return XorItself(binForm).ToString();
                 }
 
                 return "NaN";
@@ -130,21 +127,52 @@ namespace laboratory_1.sources.mvvm
         }
 
 
-        private string GetAppendedBits(int num, string numBin)
+        public string Input8 { get; set; }
+        public string PermutInput { get; set; }
+
+        public string PermutResult
         {
-            var nearestDegree = (int)Math.Log(num, 2);
+            get
+            {
+                var sb = new StringBuilder();
 
-            var rightLimit = nearestDegree + 1;
+                try
+                {
+                    var permutArr = Array.ConvertAll(PermutInput.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries), int.Parse);
 
-            var additionalCount = rightLimit - numBin.Length;
 
-            var sb = new StringBuilder();
-            for (var i = 0; i < additionalCount; i++)
-                sb.Append('0');
+                    if (permutArr.Length == Input8.Length)
+                    {
+                        sb.Append(Swap(Input8, permutArr));
+                    }
+                    else
+                    {
+                        sb.Append("#Error: In permut. input");
+                    }
 
-            sb.Append(numBin);
-            return sb.ToString();
+                }
+                catch (Exception)
+                {
+                    sb.Append("#Error: Empty input");
+                }
+                
+                return sb.ToString();
+            }
         }
+
+        private StringBuilder Swap(string input8, int[] permutArr)
+        {
+            var result = new StringBuilder();
+
+            foreach (var i in permutArr)
+            {
+                var posInSource = Input8.Length - i - 1;
+                result.Append(input8[posInSource]);
+            }
+
+            return result;
+        }
+
 
         private bool XorItself(string binStr)
         {

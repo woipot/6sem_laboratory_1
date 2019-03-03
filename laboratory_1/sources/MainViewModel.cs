@@ -231,5 +231,33 @@ namespace laboratory_1.sources
         public string RightOffsetResult => _secondModel.RightOffset;
 
         #endregion
+
+
+        #region Tab 2 part 8
+
+        public string Input8
+        {
+            get => _secondModel.Input8;
+            set
+            {
+                _secondModel.Input8 = value; 
+                OnPropertyChanged("PermutResult");
+                OnPropertyChanged("PermutInput");
+            }
+        }
+
+        public string PermutInput
+        {
+            get => _secondModel.PermutInput;
+            set
+            {
+                _secondModel.PermutInput = value; 
+                OnPropertyChanged("PermutResult");
+            }
+        }
+
+        public string PermutResult => _secondModel.PermutResult;
+
+        #endregion
     }
 }

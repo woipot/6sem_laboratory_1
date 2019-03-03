@@ -110,6 +110,7 @@
     <Compile Include="sources\mvvm\FirstTabModel.cs" />
     <Compile Include="sources\mvvm\TabSecondModel.cs" />
     <Compile Include="sources\mvvm\TabThirdModel.cs" />
+    <Compile Include="sources\mvvm\util\PermutationsValidationRule.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

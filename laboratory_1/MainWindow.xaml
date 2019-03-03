@@ -239,11 +239,40 @@
                     </StackPanel>
                 
                 </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Vertical">
+                    <StackPanel Orientation="Vertical" Margin="20">
+                        <Label Content="#8" HorizontalAlignment="Center" FontSize="20"/>
+                        <TextBox>
+                            <TextBox.Text>
+                                <Binding Path="Input8" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <util:BinNumberValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="0, 10">
+                            <TextBox.Text>
+                                <Binding Path="PermutInput" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <util:PermutationsValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <Label Margin="0, 30, 0, 0" Content="result:"/>
+                        <TextBlock TextAlignment="Center" Text="{Binding PermutResult}"/>
+                    </StackPanel>
+                </StackPanel>
+                
             </Grid>
         </TabItem>
 
         <TabItem Header="Part 3">
-
+            
 
 
         </TabItem>
