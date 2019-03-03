@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows.Controls;
 
 namespace laboratory_1.sources.mvvm.util

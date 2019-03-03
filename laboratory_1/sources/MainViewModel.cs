@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using laboratory_1.sources.mvvm;
+﻿using laboratory_1.sources.mvvm;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Xceed.Wpf.Toolkit;
