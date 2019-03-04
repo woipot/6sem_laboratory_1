@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using laboratory_1.sources.mvvm.crypt;
 
 namespace laboratory_1.sources.mvvm
 {
     public class TabThirdModel
     {
+        public static int RC4BlockSize = 1024;
+
         public void MyEncrypt(string filePatch)
         {
             try
@@ -70,7 +73,40 @@ namespace laboratory_1.sources.mvvm
 
             File.Delete(filePatch);
             File.Move(filePatch + "tmp", filePatch);
-        } 
+        }
 
+
+        public string RC4Key { get; set; } = "";
+
+        public void RC4(string filePatch)
+        {
+            var encoder = new RC4(RC4Key);
+           
+            try
+            {
+                using (var reader = new BinaryReader(File.Open(filePatch, FileMode.Open)))
+                {
+                    using (var writer = new BinaryWriter(File.Open(filePatch + "tmp", FileMode.OpenOrCreate)))
+                    {
+                        while (true)
+                        {
+                            var bytes = reader.ReadBytes(RC4BlockSize);
+                            if(bytes.Length == 0)
+                                break;
+                            
+                            var result = encoder.Encode(bytes, bytes.Length);
+                            writer.Write(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            File.Delete(filePatch);
+            File.Move(filePatch + "tmp", filePatch);
+        }
     }
 }

@@ -286,6 +286,22 @@
                     <Button Content="Encrypt" Command="{Binding MyEncryptionAction}" Margin="0,20"/>
                     <Button Content="Decrypt" Command="{Binding MyDecryptionAction}" Margin="0,20"/>
                 </StackPanel>
+
+                <StackPanel Margin="20" Grid.Column="3">
+                    <Label Content="#12" HorizontalAlignment="Center"/>
+                    <Label Content="RC4" HorizontalAlignment="Center"/>
+                    <TextBox>
+                        <TextBox.Text>
+                            <Binding Path="RC4Key" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <util:RC4KeyValidationRules/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    
+                    <Button Content="Start" Command="{Binding RC4StartAction}" Margin="0,20"/>
+                </StackPanel>
             </Grid>
         </TabItem>
     </TabControl>

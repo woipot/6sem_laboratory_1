@@ -2,6 +2,7 @@
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Win32;
+using NSubstitute;
 using Xceed.Wpf.Toolkit;
 
 namespace laboratory_1.sources
@@ -23,6 +24,8 @@ namespace laboratory_1.sources
 
             MyEncryptionAction = new DelegateCommand(MyEncryption);
             MyDecryptionAction = new DelegateCommand(MyDecription);
+
+            RC4StartAction = new DelegateCommand(RC4Start);
         }
 
         #region Tab 1 part 1
@@ -286,6 +289,36 @@ namespace laboratory_1.sources
             if (myDialog.ShowDialog() == true)
             {
                 _thirdModel.MyDecrypt(myDialog.FileName);
+            }
+        }
+
+        #endregion
+
+
+        #region Tab 3 part 12
+
+        public DelegateCommand RC4StartAction { get; }
+
+        public string RC4Key
+        {
+            get => _thirdModel.RC4Key;
+            set => _thirdModel.RC4Key = value;
+        } 
+
+        private void RC4Start()
+        {
+            if (RC4Key.Length > 0)
+            {
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
+                {
+                    _thirdModel.RC4(myDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid key");
             }
         }
 
