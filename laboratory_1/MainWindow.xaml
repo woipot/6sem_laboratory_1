@@ -272,9 +272,21 @@
         </TabItem>
 
         <TabItem Header="Part 3">
-            
-
-
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>     
+                
+                <StackPanel Margin="20">
+                    <Label Content="#9" HorizontalAlignment="Center"/>
+                    <Label Content="MyEncription" HorizontalAlignment="Center"/>
+                    <Button Content="Encrypt" Command="{Binding MyEncryptionAction}" Margin="0,20"/>
+                    <Button Content="Decrypt" Command="{Binding MyDecryptionAction}" Margin="0,20"/>
+                </StackPanel>
+            </Grid>
         </TabItem>
     </TabControl>
     

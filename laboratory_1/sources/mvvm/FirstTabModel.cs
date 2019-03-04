@@ -156,7 +156,7 @@ namespace laboratory_1.sources.mvvm
 
             var counterCopy = ToZeroNum;
 
-            for (var i = sb.Length - 1; i > 0 && counterCopy > 0; counterCopy--, i--)
+            for (var i = sb.Length - 1; i >= 0 && counterCopy > 0; counterCopy--, i--)
             {
                 sb[i] = '0';
             }

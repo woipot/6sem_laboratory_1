@@ -1,6 +1,7 @@
 ﻿using laboratory_1.sources.mvvm;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Win32;
 using Xceed.Wpf.Toolkit;
 
 namespace laboratory_1.sources
@@ -19,6 +20,9 @@ namespace laboratory_1.sources
 
             SwapCommand = new DelegateCommand(Swap);
             ZeroCommand = new DelegateCommand(Zero);
+
+            MyEncryptionAction = new DelegateCommand(MyEncryption);
+            MyDecryptionAction = new DelegateCommand(MyDecription);
         }
 
         #region Tab 1 part 1
@@ -255,6 +259,35 @@ namespace laboratory_1.sources
         }
 
         public string PermutResult => _secondModel.PermutResult;
+
+        #endregion
+
+
+        #region Tab 3 part 9
+
+        public DelegateCommand MyEncryptionAction { get; }
+
+        public DelegateCommand MyDecryptionAction { get; }
+
+        private void MyEncryption()
+        {
+            var myDialog = new OpenFileDialog();
+            myDialog.CheckFileExists = true;
+            if (myDialog.ShowDialog() == true)
+            {
+                 _thirdModel.MyEncrypt(myDialog.FileName);
+            }
+        }
+ 
+        private void MyDecription()
+        {
+            var myDialog = new OpenFileDialog();
+            myDialog.CheckFileExists = true;
+            if (myDialog.ShowDialog() == true)
+            {
+                _thirdModel.MyDecrypt(myDialog.FileName);
+            }
+        }
 
         #endregion
     }
