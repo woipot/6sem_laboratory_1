@@ -26,6 +26,7 @@ namespace laboratory_1.sources
             MyDecryptionAction = new DelegateCommand(MyDecription);
 
             RC4StartAction = new DelegateCommand(RC4Start);
+            VernamStartAction = new DelegateCommand(VernamStart);
         }
 
         #region Tab 1 part 1
@@ -289,6 +290,35 @@ namespace laboratory_1.sources
             if (myDialog.ShowDialog() == true)
             {
                 _thirdModel.MyDecrypt(myDialog.FileName);
+            }
+        }
+
+        #endregion
+
+
+        #region Tab 3 part 10
+        public DelegateCommand VernamStartAction { get; }
+
+        public string VernamKey
+        {
+            get => _thirdModel.VernamKey;
+            set => _thirdModel.VernamKey = value;
+        }
+
+        private void VernamStart()
+        {
+            if (VernamKey.Length > 0)
+            {
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
+                {
+                    _thirdModel.StartVernam(myDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid key");
             }
         }
 

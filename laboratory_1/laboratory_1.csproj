@@ -108,6 +108,7 @@
     <Compile Include="sources\ext\BitArrExt.cs" />
     <Compile Include="sources\mvvm\crypt\MyCrypt.cs" />
     <Compile Include="sources\mvvm\crypt\RC4.cs" />
+    <Compile Include="sources\mvvm\crypt\Vernam.cs" />
     <Compile Include="sources\mvvm\util\NumberValidationRule.cs" />
     <Compile Include="sources\mvvm\util\BinNumberValidationRule.cs" />
     <Compile Include="sources\MainViewModel.cs" />

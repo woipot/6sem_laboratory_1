@@ -108,5 +108,40 @@ namespace laboratory_1.sources.mvvm
             File.Delete(filePatch);
             File.Move(filePatch + "tmp", filePatch);
         }
+
+
+
+        public string VernamKey { get; set; } = "";
+
+        public void StartVernam(string filePatch)
+        {
+            try
+            {
+                using (var reader = new BinaryReader(File.Open(filePatch, FileMode.Open)))
+                {
+                    using (var writer = new BinaryWriter(File.Open(filePatch + "tmp", FileMode.OpenOrCreate)))
+                    {
+                        var key = Encoding.Default.GetBytes(VernamKey);
+                        var blockSize = key.Length;
+                        while (true)
+                        {
+                            var bytes = reader.ReadBytes(blockSize);
+                            if (bytes.Length == 0)
+                                break;
+
+                            var result = Vernam.GetCipher(key, bytes);
+                            writer.Write(result);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            File.Delete(filePatch);
+            File.Move(filePatch + "tmp", filePatch);
+        }
     }
 }

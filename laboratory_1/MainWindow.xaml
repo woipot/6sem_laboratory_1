@@ -287,6 +287,18 @@
                     <Button Content="Decrypt" Command="{Binding MyDecryptionAction}" Margin="0,20"/>
                 </StackPanel>
 
+                <StackPanel Margin="20" Grid.Column = "1">
+                    <Label Content="#10" HorizontalAlignment="Center"/>
+                    <Label Content="Vernam" HorizontalAlignment="Center"/>
+                    <TextBox>
+                        <TextBox.Text>
+                            <Binding Path="VernamKey" UpdateSourceTrigger="PropertyChanged"/>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <Button Content="Start" Command="{Binding VernamStartAction}" Margin="0,20"/>
+                </StackPanel>
+
                 <StackPanel Margin="20" Grid.Column="3">
                     <Label Content="#12" HorizontalAlignment="Center"/>
                     <Label Content="RC4" HorizontalAlignment="Center"/>

@@ -13,7 +13,7 @@ namespace laboratory_1.sources.mvvm.util
 
                 var isCorrect = bitCount>=40 && bitCount <= 256;
 
-                return new ValidationResult(isCorrect, "key must be in 40 <= x < 256");
+                return new ValidationResult(isCorrect, "key must be in 40 <= x <= 256");
             }
 
             return new ValidationResult(false, "Bad input");
