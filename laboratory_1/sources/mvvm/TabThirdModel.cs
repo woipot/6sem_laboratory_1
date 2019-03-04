@@ -14,11 +14,18 @@ namespace laboratory_1.sources.mvvm
                 {
                     using (var writer = new BinaryWriter(File.Open(filePatch + "tmp", FileMode.OpenOrCreate)))
                     {
-                        while (reader.PeekChar() > -1)
+                        while (true)
                         {
-                            var area = reader.ReadByte();
-                            var newByte = MyCrypt.EncryptByte(area);
-                            writer.Write(newByte);
+                            try
+                            {
+                                var area = reader.ReadByte();
+                                var newByte = MyCrypt.EncryptByte(area);
+                                writer.Write(newByte);
+                            }
+                            catch (EndOfStreamException e)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
@@ -40,11 +47,18 @@ namespace laboratory_1.sources.mvvm
                 {
                     using (var writer = new BinaryWriter(File.Open(filePatch + "tmp", FileMode.OpenOrCreate)))
                     {
-                        while (reader.PeekChar() > -1)
+                        while (true)
                         {
-                            var area = reader.ReadByte();
-                            var newByte = MyCrypt.DecryptByte(area);
-                            writer.Write(newByte);
+                            try
+                            {
+                                var area = reader.ReadByte();
+                                var newByte = MyCrypt.DecryptByte(area);
+                                writer.Write(newByte);
+                            }
+                            catch (EndOfStreamException e)
+                            {
+                                break;
+                            }
                         }
                     }
                 }
