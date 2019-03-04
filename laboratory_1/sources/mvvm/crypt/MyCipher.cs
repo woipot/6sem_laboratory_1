@@ -7,7 +7,7 @@ using laboratory_1.sources.ext;
 
 namespace laboratory_1.sources.mvvm.crypt
 {
-    public static class MyCrypt
+    public static class MyCipher
     {
         private static List<BitArray> _myCryptArr = new List<BitArray>
         {

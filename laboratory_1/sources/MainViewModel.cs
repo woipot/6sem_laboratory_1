@@ -27,6 +27,8 @@ namespace laboratory_1.sources
 
             RC4StartAction = new DelegateCommand(RC4Start);
             VernamStartAction = new DelegateCommand(VernamStart);
+            DESEncodeAction = new DelegateCommand(DESEncode);
+            DESDecodeAction = new DelegateCommand(DESDecode);
         }
 
         #region Tab 1 part 1
@@ -325,6 +327,64 @@ namespace laboratory_1.sources
         #endregion
 
 
+        #region Tab 3 part 11
+        public DelegateCommand DESEncodeAction { get; }
+        public DelegateCommand DESDecodeAction { get; }
+
+        public string DESKey
+        {
+            get => _thirdModel.DESKey;
+            set => _thirdModel.DESKey = value;
+        }
+
+        public bool ECBMode
+        {
+            get => _thirdModel.ECBMode;
+            set => _thirdModel.ECBMode = value;
+        }
+        public bool CBCMode
+        {
+            get => _thirdModel.CBCMode;
+            set => _thirdModel.CBCMode = value;
+        }
+
+        private void DESEncode()
+        {
+            if (DESKey.Length > 0 && DESKey.Length <= 8)
+            {
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
+                {
+                    _thirdModel.DESEncode(myDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid key");
+            }
+        }
+
+        private void DESDecode()
+        {
+            if (DESKey.Length > 0 && DESKey.Length <= 8)
+            {
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
+                {
+                    _thirdModel.DESEncode(myDialog.FileName, true);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid key");
+            }
+        }
+
+        #endregion
+
+
         #region Tab 3 part 12
 
         public DelegateCommand RC4StartAction { get; }
@@ -333,7 +393,7 @@ namespace laboratory_1.sources
         {
             get => _thirdModel.RC4Key;
             set => _thirdModel.RC4Key = value;
-        } 
+        }
 
         private void RC4Start()
         {
