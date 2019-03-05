@@ -175,7 +175,7 @@ namespace laboratory_1.sources.mvvm
 
         public string ResultNum => SwapBytes(Left, Right);
 
-        public String SwapBytes(int i, int j)
+        private string SwapBytes(int i, int j)
         {
             try
             {
@@ -183,7 +183,7 @@ namespace laboratory_1.sources.mvvm
                 {
                     Number = Number.Insert(0, "0");
                 }
-                return string.Join("", Swap<String>(new List<string>(Split(Number, 8)), i - 1, j - 1));
+                return string.Join("", Swap<string>(new List<string>(Split(Number, 8)), i - 1, j - 1));
             }
             catch (Exception)
             {

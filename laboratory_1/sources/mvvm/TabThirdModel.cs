@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using laboratory_1.sources.mvvm.crypt;
@@ -18,19 +19,21 @@ namespace laboratory_1.sources.mvvm
                 {
                     using (var writer = new BinaryWriter(File.Open(filePatch + "tmp", FileMode.OpenOrCreate)))
                     {
+                        var byteList = new List<byte>();
                         while (true)
                         {
                             try
                             {
                                 var area = reader.ReadByte();
                                 var newByte = MyCipher.EncryptByte(area);
-                                writer.Write(newByte);
+                                byteList.Add(newByte);
                             }
                             catch (EndOfStreamException e)
                             {
                                 break;
                             }
                         }
+                        writer.Write(byteList.ToArray());
                     }
                 }
             }
@@ -51,19 +54,21 @@ namespace laboratory_1.sources.mvvm
                 {
                     using (var writer = new BinaryWriter(File.Open(filePatch + "tmp", FileMode.OpenOrCreate)))
                     {
+                        var byteList = new List<byte>();
                         while (true)
                         {
                             try
                             {
                                 var area = reader.ReadByte();
                                 var newByte = MyCipher.DecryptByte(area);
-                                writer.Write(newByte);
+                                byteList.Add(newByte);
                             }
                             catch (EndOfStreamException e)
                             {
                                 break;
                             }
                         }
+                        writer.Write(byteList.ToArray());
                     }
                 }
             }
