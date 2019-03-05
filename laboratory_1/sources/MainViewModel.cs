@@ -160,7 +160,39 @@ namespace laboratory_1.sources
 
         #region Tab 1 part 3
 
+        public string Number
+        {
+            get => _firstModel.Number;
+            set
+            {
+                _firstModel.Number = value;
+                OnPropertyChanged("ResultNum");
+            }
+            
+        }
 
+        public int Left
+        {
+            get => _firstModel.Left;
+            set
+            {
+                _firstModel.Left = value;
+                OnPropertyChanged("ResultNum");
+            } 
+        }
+
+        public int Right
+        {
+            get => _firstModel.Right;
+            set
+            {
+                _firstModel.Right = value;
+                OnPropertyChanged("ResultNum");
+            }
+            
+        }
+
+        public string ResultNum => _firstModel.ResultNum;
 
         #endregion
 

@@ -121,6 +121,32 @@
                     </StackPanel>
 
                 </StackPanel>
+                
+                <Border Grid.Column="2" BorderThickness="2">
+                    <StackPanel>
+                        <Label Content="#3" HorizontalAlignment="Center" FontSize="15"/>
+                        <TextBox Margin="0,20">
+                            <TextBox.Text>
+                                <Binding Path="Number" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <util:BinNumberValidationRule/>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+                        <TextBlock Text="{Binding ResultNum}" TextAlignment="Center"/>
+                        
+                        <Grid Margin="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <xctk:ShortUpDown Value="{Binding Left}" Maximum="4" Minimum="0" Watermark="Enter bite position" ClipValueToMinMax="True"/>
+                            <xctk:ShortUpDown Grid.Column="2" Value="{Binding Right}" Maximum="4" Minimum="0" Watermark="Enter bite position" ClipValueToMinMax="True"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
             </Grid>
         </TabItem>
         

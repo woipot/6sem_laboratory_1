@@ -1,4 +1,7 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Practices.Prism.Mvvm;
 
 namespace laboratory_1.sources.mvvm
@@ -162,6 +165,42 @@ namespace laboratory_1.sources.mvvm
             }
 
             Input32 = sb.ToString();
+        }
+
+        public string Number { get; set; }
+
+        public int Left { get; set; }
+
+        public int Right { get; set; }
+
+        public string ResultNum => SwapBytes(Left, Right);
+
+        public String SwapBytes(int i, int j)
+        {
+            try
+            {
+                while (Number.Length < i * 8 || Number.Length < j * 8)
+                {
+                    Number = Number.Insert(0, "0");
+                }
+                return string.Join("", Swap<String>(new List<string>(Split(Number, 8)), i - 1, j - 1));
+            }
+            catch (Exception)
+            {
+                return "#Error";
+            }
+        }
+        private static IEnumerable<string> Split(string str, int chunkSize)
+        {
+            return Enumerable.Range(0, str.Length / chunkSize)
+                .Select(i => str.Substring(i * chunkSize, chunkSize));
+        }
+        private static IEnumerable<T> Swap<T>(IList<T> list, int indexA, int indexB)
+        {
+            T tmp = list[indexA];
+            list[indexA] = list[indexB];
+            list[indexB] = tmp;
+            return list;
         }
     }
 }
