@@ -1,4 +1,5 @@
-﻿using laboratory_1.sources.mvvm;
+﻿using System;
+using laboratory_1.sources.mvvm;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Win32;
@@ -388,7 +389,14 @@ namespace laboratory_1.sources
                 myDialog.CheckFileExists = true;
                 if (myDialog.ShowDialog() == true)
                 {
-                    _thirdModel.DESEncode(myDialog.FileName);
+                    try
+                    {
+                        _thirdModel.DESEncode(myDialog.FileName);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Invalid key");
+                    }
                 }
             }
             else
@@ -405,7 +413,15 @@ namespace laboratory_1.sources
                 myDialog.CheckFileExists = true;
                 if (myDialog.ShowDialog() == true)
                 {
-                    _thirdModel.DESEncode(myDialog.FileName, true);
+                    try
+                    {
+                        _thirdModel.DESEncode(myDialog.FileName, true);
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Invalid key");
+                    }
+                   
                 }
             }
             else

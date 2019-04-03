@@ -9,9 +9,9 @@ namespace laboratory_1.sources.mvvm.util
             var key = value as string;
             var bitCount = key.Length * 2 * 8;
 
-            var isCorrect = bitCount <= 64;
+            var isCorrect =key.Length != 7;
 
-            return new ValidationResult(isCorrect, "key must be less than 64");
+            return new ValidationResult(isCorrect, "key must have length 7");
 
         }
     }
