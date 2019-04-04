@@ -156,11 +156,13 @@ namespace laboratory_1.sources.mvvm
 
         public string DESKey { get; set; } = "AABB09182736CCDD";
 
-        public string DESIV { get; set; }
+        public string DESIV { get; set; } = "AABB09182736CCDD";
 
         public bool ECBMode { get; set; } = true;
 
         public bool CBCMode { get; set; }
+
+        public bool CFBMode { get; set; }
 
         public void DESEncode(string filePath, bool decode = false)
         {
@@ -185,9 +187,23 @@ namespace laboratory_1.sources.mvvm
 
         public void Encrypt(string fileName)
         {
-            var des = new DesMain(DESKey);
-            des.Create();
-            des.EncryptFile(fileName, fileName + "destmp");
+            if (ECBMode)
+            {
+                var des = new DesMain(DESKey);
+                des.Create();
+                des.EncryptFile(fileName, fileName + "destmp");
+            }else if (CBCMode)
+            {
+                var des = new SmartDesCbc(DESKey, DESIV);
+                des.Create();
+                des.EncryptFile(fileName, fileName + "destmp");
+            }
+            else if (CFBMode)
+            {
+                var des = new SmartDesCFB(DESKey, DESIV);
+                des.Create();
+                des.EncryptFile(fileName, fileName + "destmp");
+            }
 
             File.Delete(fileName);
             File.Move(fileName + "destmp", fileName);
@@ -195,10 +211,24 @@ namespace laboratory_1.sources.mvvm
 
         public void Decrypt(string fileName)
         {
-            var des = new DesMain(DESKey);
-            des.Create();
-            des.DecryptFile(fileName, fileName + "destmp");
-
+            if (ECBMode)
+            {
+                var des = new DesMain(DESKey);
+                des.Create();
+                des.DecryptFile(fileName, fileName + "destmp");
+            }
+            else if (CBCMode)
+            {
+                var des = new SmartDesCbc(DESKey, DESIV);
+                des.Create();
+                des.DecodeFile(fileName, fileName + "destmp");
+            }
+            else if (CFBMode)
+            {
+                var des = new SmartDesCFB(DESKey, DESIV);
+                des.Create();
+                des.DecodeFile(fileName, fileName + "destmp");
+            }
             File.Delete(fileName);
             File.Move(fileName + "destmp", fileName);
         }

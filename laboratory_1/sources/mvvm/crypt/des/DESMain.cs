@@ -11,8 +11,8 @@ namespace laboratory_1.sources.mvvm.crypt.des
     {
         protected DesModules Modules;
         protected string Key;
-        private string _cipherText;
-        private string _decryptedText;
+        protected string _cipherText;
+        protected string _decryptedText;
         private int[][] _roundKeys;
         private string _traceInit;
         private string _traceFinal;

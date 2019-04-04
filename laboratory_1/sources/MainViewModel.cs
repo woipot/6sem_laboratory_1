@@ -380,6 +380,11 @@ namespace laboratory_1.sources
             get => _thirdModel.CBCMode;
             set => _thirdModel.CBCMode = value;
         }
+        public bool CFBMode
+        {
+            get => _thirdModel.CFBMode;
+            set => _thirdModel.CFBMode = value;
+        }
 
         private void DESEncode()
         {

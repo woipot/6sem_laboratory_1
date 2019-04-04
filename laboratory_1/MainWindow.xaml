@@ -343,6 +343,7 @@
                     <Button Content="Decode" Command="{Binding DESDecodeAction}" Margin="0,20"/>
                     <RadioButton Content="ECB" IsChecked="{Binding ECBMode}"/>
                     <RadioButton Content="CBC" IsChecked="{Binding CBCMode}"/>
+                    <RadioButton Content="CFB" IsChecked="{Binding CFBMode}"/>
                 </StackPanel>
 
                 <StackPanel Margin="20" Grid.Column="3">
