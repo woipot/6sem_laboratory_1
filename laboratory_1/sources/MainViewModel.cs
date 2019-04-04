@@ -385,6 +385,11 @@ namespace laboratory_1.sources
             get => _thirdModel.CFBMode;
             set => _thirdModel.CFBMode = value;
         }
+        public bool OFBMode
+        {
+            get => _thirdModel.OFBMode;
+            set => _thirdModel.OFBMode = value;
+        }
 
         private void DESEncode()
         {

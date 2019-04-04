@@ -164,6 +164,8 @@ namespace laboratory_1.sources.mvvm
 
         public bool CFBMode { get; set; }
 
+        public bool OFBMode { get; set; }
+
         public void DESEncode(string filePath, bool decode = false)
         {
             try
@@ -204,6 +206,12 @@ namespace laboratory_1.sources.mvvm
                 des.Create();
                 des.EncryptFile(fileName, fileName + "destmp");
             }
+            else if (OFBMode)
+            {
+                var des = new SmartDesOFB(DESKey, DESIV);
+                des.Create();
+                des.EncryptFile(fileName, fileName + "destmp");
+            }
 
             File.Delete(fileName);
             File.Move(fileName + "destmp", fileName);
@@ -226,6 +234,12 @@ namespace laboratory_1.sources.mvvm
             else if (CFBMode)
             {
                 var des = new SmartDesCFB(DESKey, DESIV);
+                des.Create();
+                des.DecodeFile(fileName, fileName + "destmp");
+            }
+            else if (OFBMode)
+            {
+                var des = new SmartDesOFB(DESKey, DESIV);
                 des.Create();
                 des.DecodeFile(fileName, fileName + "destmp");
             }
