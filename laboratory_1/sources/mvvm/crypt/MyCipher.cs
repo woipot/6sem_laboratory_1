@@ -1,8 +1,5 @@
-﻿
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using laboratory_1.sources.ext;
 
 namespace laboratory_1.sources.mvvm.crypt

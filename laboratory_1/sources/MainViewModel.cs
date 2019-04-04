@@ -383,7 +383,7 @@ namespace laboratory_1.sources
 
         private void DESEncode()
         {
-            if (DESKey.Length > 0 && DESKey.Length <= 8)
+            if (DESKey.Length == 16)
             {
                 var myDialog = new OpenFileDialog();
                 myDialog.CheckFileExists = true;
@@ -407,7 +407,7 @@ namespace laboratory_1.sources
 
         private void DESDecode()
         {
-            if (DESKey.Length > 0 && DESKey.Length <= 8)
+            if (DESKey.Length == 16)
             {
                 var myDialog = new OpenFileDialog();
                 myDialog.CheckFileExists = true;

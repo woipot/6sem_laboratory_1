@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Cryptography.Algorithms.Symmetric;
 using laboratory_1.sources.mvvm.crypt;
 using laboratory_1.sources.mvvm.crypt.des;
+using laboratory_1.sources.mvvm.util;
 
 namespace laboratory_1.sources.mvvm
 {
@@ -154,7 +154,9 @@ namespace laboratory_1.sources.mvvm
         }
 
 
-        public string DESKey { get; set; }
+        public string DESKey { get; set; } = "AABB09182736CCDD";
+
+        public string DESIV { get; set; }
 
         public bool ECBMode { get; set; } = true;
 
@@ -183,100 +185,22 @@ namespace laboratory_1.sources.mvvm
 
         public void Encrypt(string fileName)
         {
-            var des = new DES
-            {
-                Key = Encoding.Default.GetBytes(DESKey)
-            };
-            using (var reader = new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read), Encoding.Default))
-            {
-                if (reader.BaseStream.Length == 0)
-                {
-                    return;
-                }
-                var countOfBytesToDeleteAtDecryption = (int)(8 - reader.BaseStream.Length % 8) % 8;
-                var countOfBytesToDeleteAtDecryptionBytes = BitConverter.GetBytes((ulong)countOfBytesToDeleteAtDecryption);
-                using (var writer = new BinaryWriter(new FileStream(fileName+"tmp", FileMode.Create, FileAccess.Write), Encoding.Default))
-                {
-                    writer.Write(des.Encrypt(countOfBytesToDeleteAtDecryptionBytes));
-                    while (true)
-                    {
-                        var readBytes = reader.ReadBytes(128);
-                        if (readBytes.Length == 0)
-                        {
-                            break;
-                        }
-                        if (readBytes.Length != 128)
-                        {
-                            Array.Resize(ref readBytes, readBytes.Length + countOfBytesToDeleteAtDecryption);
-                        }
-                        var blocks = Enumerable.Range(0, readBytes.Length / 8).Select((i) => readBytes.Skip(i * 8).Take(8).ToArray()).ToArray();
-                        var encryptedBlocks = new byte[blocks.Length][];
-                        Parallel.For(0, blocks.Length, (i) =>
-                        {
-                            encryptedBlocks[i] = des.Encrypt(blocks[i]);
-                        });
-                        foreach (var encryptedBlock in encryptedBlocks)
-                        {
-                            writer.Write(encryptedBlock);
-                        }
-                        var cipherOperationProgress = (int)((float)reader.BaseStream.Position / reader.BaseStream.Length * 100);
-                    }
-                }
-            }
+            var des = new DesMain(DESKey);
+            des.Create();
+            des.EncryptFile(fileName, fileName + "destmp");
+
             File.Delete(fileName);
-            File.Move(fileName + "tmp", fileName);
+            File.Move(fileName + "destmp", fileName);
         }
 
         public void Decrypt(string fileName)
         {
-            var des = new DES()
-            {
-                Key = Encoding.Default.GetBytes(DESKey)
-            };
-            using (var reader = new BinaryReader(new FileStream(fileName, FileMode.Open, FileAccess.Read), Encoding.Default))
-            {
-                if (reader.BaseStream.Length % 8 != 0 || reader.BaseStream.Length == 8)
-                {
-                    return ;
-                }
-                using (var writer = new BinaryWriter(new FileStream(fileName + "tmp", FileMode.Create, FileAccess.Write), Encoding.Default))
-                {
-                    if (reader.BaseStream.Length == 0)
-                    {
-                        return ;
-                    }
-                    var countOfBytesToDelete = BitConverter.ToUInt64(des.Decrypt(reader.ReadBytes(8)), 0);
-                    if (countOfBytesToDelete >= 8)
-                    {
-                        countOfBytesToDelete = 0;
-                    }
-                    while (true)
-                    {
-                        var readBytes = reader.ReadBytes(1024);
-                        if (readBytes.Length == 0)
-                        {
-                            break;
-                        }
-                        var blocks = Enumerable.Range(0, readBytes.Length / 8).Select((i) => readBytes.Skip(i * 8).Take(8).ToArray()).ToArray();
-                        var decryptedBlocks = new byte[blocks.Length][];
-                        Parallel.For(0, blocks.Length, (i) =>
-                        {
-                            decryptedBlocks[i] = des.Decrypt(blocks[i]);
-                        });
-                        if (reader.BaseStream.Position == reader.BaseStream.Length && countOfBytesToDelete != 0)
-                        {
-                            Array.Resize(ref decryptedBlocks[decryptedBlocks.Length - 1], (int)(8 - countOfBytesToDelete));
-                        }
-                        foreach (var decryptedBlock in decryptedBlocks)
-                        {
-                            writer.Write(decryptedBlock);
-                        }
-                    }
-                }
-            }
+            var des = new DesMain(DESKey);
+            des.Create();
+            des.DecryptFile(fileName, fileName + "destmp");
+
             File.Delete(fileName);
-            File.Move(fileName+"tmp", fileName);
-                    
+            File.Move(fileName + "destmp", fileName);
         }
     }
 

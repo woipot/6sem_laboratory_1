@@ -106,8 +106,10 @@
     </ApplicationDefinition>
     <Compile Include="sources\ext\ArrayExt.cs" />
     <Compile Include="sources\ext\BitArrExt.cs" />
-    <Compile Include="sources\mvvm\crypt\des\DES.cs" />
-    <Compile Include="sources\mvvm\crypt\des\DESMode.cs" />
+    <Compile Include="sources\mvvm\crypt\des\DESCBC.cs" />
+    <Compile Include="sources\mvvm\crypt\des\DESConstants.cs" />
+    <Compile Include="sources\mvvm\crypt\des\DESMain.cs" />
+    <Compile Include="sources\mvvm\crypt\des\DESModules.cs" />
     <Compile Include="sources\mvvm\crypt\MyCipher.cs" />
     <Compile Include="sources\mvvm\crypt\RC4.cs" />
     <Compile Include="sources\mvvm\crypt\Vernam.cs" />
