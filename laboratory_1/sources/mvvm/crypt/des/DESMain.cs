@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace laboratory_1.sources.mvvm.crypt.des
 {
@@ -46,44 +47,43 @@ namespace laboratory_1.sources.mvvm.crypt.des
             _cipherKey = Modules.CipherKey;
         }
 
+        public static byte[] StringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                .Where(x => x % 2 == 0)
+                .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                .ToArray();
+        }
+
         public void EncryptFile(string filePathFrom, string filePathTo)
         {
-            using (var reader = new BinaryReader(File.Open(filePathFrom, FileMode.Open)))
+            using (var reader = new FileStream(filePathFrom, FileMode.Open))
             {
                 using (var writer = new BinaryWriter(File.Open(filePathTo, FileMode.OpenOrCreate)))
                 {
-                    while (true)
+                    Int64 hexIn;
+                    String hex = "";
+
+                    var counter = 0;
+                    for (int i = 0; (hexIn = reader.ReadByte()) != -1; i++)
                     {
-                        var blocks = new List<int>();
-                        try
+                        counter++;
+                        hex += $"{hexIn:X2}";
+                        if (counter == 8)
                         {
-                            blocks.Add(reader.ReadInt32());
+                            counter = 0;
+                            EncryptRound(hex);
+                            writer.Write(StringToByteArray(CipherText));
+                            hex = "";
                         }
-                        catch (EndOfStreamException e)
-                        {
-                            break;
-                        }
+                    }
 
-                        var inSecondBase = Convert.ToString(blocks.First(), 2);
-                        var Arr = Modules.BinStringToBinArray(inSecondBase);
-                        var hex = Modules.BinArrayToHex(Arr, 0);
-
-                        blocks.Clear();
-                        foreach (var c in inSecondBase)
-                        {
-                            blocks.Add(c == '1'? 1 : 0);   
-                        }
-
-                        if (blocks.Count < 64)
-                        {
-                            for (int i = blocks.Count; i < 64; i++)
-                            {
-                                blocks.Add(0);
-                            }
-                        }
-
-                        EncryptRound(blocks.ToArray());
-                        writer.Write(CipherText);
+                    if (counter != 8 && counter != 0)
+                    {
+                        for(var i = counter; i < 8; i++)
+                            hex += $"{(byte)0:X2}";
+                        EncryptRound(hex);
+                        writer.Write(StringToByteArray(CipherText));
                     }
                 }
             }
@@ -133,43 +133,33 @@ namespace laboratory_1.sources.mvvm.crypt.des
 
         public void DecryptFile(string filePathFrom, string filePathTo)
         {
-            using (var reader = new BinaryReader(File.Open(filePathFrom, FileMode.Open)))
+            using (var reader = new FileStream(filePathFrom, FileMode.Open))
             {
                 using (var writer = new BinaryWriter(File.Open(filePathTo, FileMode.OpenOrCreate)))
                 {
-                    while (true)
+                    Int64 hexIn;
+                    String hex = "";
+
+                    var counter = 0;
+                    for (int i = 0; (hexIn = reader.ReadByte()) != -1; i++)
                     {
-                        var blocks = new List<int>();
-                        try
+                        counter++;
+                        hex += $"{hexIn:X2}";
+                        if (counter == 8)
                         {
-                            blocks.Add(reader.ReadInt32());
-                            
+                            counter = 0;
+                            Decrypt(hex);
+                            writer.Write(StringToByteArray(DecryptText));
+                            hex = "";
                         }
-                        catch (EndOfStreamException e)
-                        {
-                            break;
-                        }
+                    }
 
-                        var inSecondBase = Convert.ToString(blocks.First(), 2);
-                        var Arr = Modules.BinStringToBinArray(inSecondBase);
-                        var hex = Modules.BinArrayToHex(Arr, 0);
-
-                        blocks.Clear();
-                        foreach (var c in inSecondBase)
-                        {
-                            blocks.Add(c == '1' ? 1 : 0);
-                        }
-
-                        if (blocks.Count < 64)
-                        {
-                            for (int i = blocks.Count; i < 64; i++)
-                            {
-                                blocks.Add(0);
-                            }
-                        }
-
-                        Decrypt(blocks.ToArray());
-                        writer.Write(DecryptText);
+                    if (counter != 8 && counter != 0)
+                    {
+                        for (var i = counter; i < 8; i++)
+                            hex += $"{(byte)0:X2}";
+                        Decrypt(hex);
+                        writer.Write(StringToByteArray(DecryptText));
                     }
                 }
             }
