@@ -5,7 +5,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
 {
     public class SmartDesCbc : DesMain
     {
-        private readonly string _iv;
+        private string _iv;
 
         private string _lastEncrypted = "";
 
@@ -14,7 +14,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
             _iv = iv;
         }
 
-        public void EncryptFile(string fromFile, string toFile)
+        public new void EncryptFile(string fromFile, string toFile)
         {
             using (var reader = new FileStream(fromFile, FileMode.Open))
             {
@@ -50,13 +50,15 @@ namespace laboratory_1.sources.mvvm.crypt.des
 
         private void CbcEncryptRound(string hex)
         {
-            if (string.IsNullOrEmpty(CipherText))
-            {
-                _cipherText = _iv;
-            }
+        //    if (string.IsNullOrEmpty(CipherText))
+        //    {
+        //        _cipherText = _iv;
+        //    }
 
-            var input = Convert.ToInt64(hex, 16) ^ Convert.ToInt64(_cipherText, 16);
+            var input = Convert.ToInt64(hex, 16) ^ Convert.ToInt64(_iv, 16);
             EncryptRound($"{input:X16}");
+
+            _iv = CipherText;
         }
 
         public void DecodeFile(string fromFile, string toFile)
@@ -99,10 +101,11 @@ namespace laboratory_1.sources.mvvm.crypt.des
             {
                 _lastEncrypted = _iv;
             }
+
             Decrypt(hex);
 
             var output = Convert.ToInt64(_lastEncrypted, 16) ^ Convert.ToInt64(DecryptText, 16);
-
+            _lastEncrypted = hex;
             _decryptedText = $"{output:X16}";
 
         }
