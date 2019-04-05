@@ -3,18 +3,18 @@ using System.IO;
 
 namespace laboratory_1.sources.mvvm.crypt.des
 {
-    public class SmartDesCbc : Des
+    public class DesCFB : Des
     {
         private string _iv;
 
         private string _lastEncrypted = "";
 
-        public SmartDesCbc(string key, string iv) : base(key)
+        public DesCFB(string key, string iv) : base(key)
         {
             _iv = iv;
         }
 
-        public new void EncryptFile(string fromFile, string toFile)
+        public void EncryptFile(string fromFile, string toFile)
         {
             using (var reader = new FileStream(fromFile, FileMode.Open))
             {
@@ -31,7 +31,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
                         if (counter == 8)
                         {
                             counter = 0;
-                            CbcEncryptRound(hex);
+                            CfbEncryptRound(hex);
                             writer.Write(StringToByteArray(CipherText));
                             hex = "";
                         }
@@ -41,24 +41,21 @@ namespace laboratory_1.sources.mvvm.crypt.des
                     {
                         for (var i = counter; i < 8; i++)
                             hex += $"{(byte)0:X2}";
-                        CbcEncryptRound(hex);
+                        CfbEncryptRound(hex);
                         writer.Write(StringToByteArray(CipherText));
                     }
                 }
             }
         }
 
-        private void CbcEncryptRound(string hex)
+        private void CfbEncryptRound(string hex)
         {
-        //    if (string.IsNullOrEmpty(CipherText))
-        //    {
-        //        _cipherText = _iv;
-        //    }
+            EncryptRound(_iv);
 
-            var input = Convert.ToInt64(hex, 16) ^ Convert.ToInt64(_iv, 16);
-            EncryptRound($"{input:X16}");
+            var output = Convert.ToInt64(hex, 16) ^ Convert.ToInt64(CipherText, 16);
 
-            _iv = CipherText;
+            _cipherText = $"{output:X16}";
+            _iv = _cipherText;
         }
 
         public void DecodeFile(string fromFile, string toFile)
@@ -78,7 +75,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
                         if (counter == 8)
                         {
                             counter = 0;
-                            CbcDecodeRound(hex);
+                            CfbDecodeRound(hex);
                             writer.Write(StringToByteArray(DecryptText));
                             hex = "";
                         }
@@ -88,26 +85,21 @@ namespace laboratory_1.sources.mvvm.crypt.des
                     {
                         for (var i = counter; i < 8; i++)
                             hex += $"{(byte)0:X2}";
-                        CbcDecodeRound(hex);
+                        CfbDecodeRound(hex);
                         writer.Write(StringToByteArray(DecryptText));
                     }
                 }
             }
         }
 
-        private void CbcDecodeRound(string hex)
+        private void CfbDecodeRound(string hex)
         {
-            if (string.IsNullOrEmpty(_lastEncrypted))
-            {
-                _lastEncrypted = _iv;
-            }
+            EncryptRound(_iv);
 
-            Decrypt(hex);
+            var output = Convert.ToInt64(hex, 16) ^ Convert.ToInt64(CipherText, 16);
 
-            var output = Convert.ToInt64(_lastEncrypted, 16) ^ Convert.ToInt64(DecryptText, 16);
-            _lastEncrypted = hex;
             _decryptedText = $"{output:X16}";
-
+            _iv = hex;
         }
     }
 }

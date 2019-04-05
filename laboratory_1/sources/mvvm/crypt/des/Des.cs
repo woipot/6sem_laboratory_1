@@ -6,8 +6,8 @@ namespace laboratory_1.sources.mvvm.crypt.des
 {
     public class Des
     {
-        protected DesModules Modules;
-        protected string Key;
+        private DesModules Modules;
+        private string Key;
         protected string _cipherText;
         protected string _decryptedText;
         private bool[][] _roundKeys;

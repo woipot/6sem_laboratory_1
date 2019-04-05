@@ -1,6 +1,6 @@
 ﻿namespace laboratory_1.sources.mvvm.crypt.des
 {
-    public class DesConstants
+    public static class DesConstants
     {
         public static readonly int[] InitialPermutation = {58, 50, 42, 34, 26, 18, 10, 2,
                                                            60, 52, 44, 36, 28, 20, 12, 4,

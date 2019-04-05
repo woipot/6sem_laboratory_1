@@ -196,19 +196,19 @@ namespace laboratory_1.sources.mvvm
                 des.EncryptFile(fileName, fileName + "destmp");
             }else if (CBCMode)
             {
-                var des = new SmartDesCbc(DESKey, DESIV);
+                var des = new DesCbc(DESKey, DESIV);
                 des.Create();
                 des.EncryptFile(fileName, fileName + "destmp");
             }
             else if (CFBMode)
             {
-                var des = new SmartDesCFB(DESKey, DESIV);
+                var des = new DesCFB(DESKey, DESIV);
                 des.Create();
                 des.EncryptFile(fileName, fileName + "destmp");
             }
             else if (OFBMode)
             {
-                var des = new SmartDesOFB(DESKey, DESIV);
+                var des = new DesOFB(DESKey, DESIV);
                 des.Create();
                 des.EncryptFile(fileName, fileName + "destmp");
             }
@@ -227,19 +227,19 @@ namespace laboratory_1.sources.mvvm
             }
             else if (CBCMode)
             {
-                var des = new SmartDesCbc(DESKey, DESIV);
+                var des = new DesCbc(DESKey, DESIV);
                 des.Create();
                 des.DecodeFile(fileName, fileName + "destmp");
             }
             else if (CFBMode)
             {
-                var des = new SmartDesCFB(DESKey, DESIV);
+                var des = new DesCFB(DESKey, DESIV);
                 des.Create();
                 des.DecodeFile(fileName, fileName + "destmp");
             }
             else if (OFBMode)
             {
-                var des = new SmartDesOFB(DESKey, DESIV);
+                var des = new DesOFB(DESKey, DESIV);
                 des.Create();
                 des.DecodeFile(fileName, fileName + "destmp");
             }
