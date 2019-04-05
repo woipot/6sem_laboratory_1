@@ -8,52 +8,56 @@ namespace laboratory_1.sources.mvvm.crypt.des
     {
         private string _cipherKey;
         public string CipherKey => _cipherKey;
-        public int[] Xor(int[] arg1, int[] arg2)
+
+        public bool[] Xor(bool[] arg1, bool[] arg2)
         {
-            int[] re = new int[arg1.Length];
-            for(int i = 0; i < arg1.Length; i++)
+            bool[] re = new bool[arg1.Length];
+            for (int i = 0; i < arg1.Length; i++)
             {
-                if (arg1[i] + arg2[i] == 1)
-                    re[i] = 1;
+                if (arg1[i] ^ arg2[i])
+                    re[i] = true;
                 else
-                    re[i] = 0;
+                    re[i] = false;
             }
+
             return re;
         }
 
         private string HexStringToBinString(string hex)
         {
             string result = "";
-            result = string.Join(string.Empty, hex.Select(h => 
-                                    Convert.ToString(
-                                        Convert.ToInt32(h.ToString(), 16), 2
-                                        ).PadLeft(4, '0')));
+            result = string.Join(string.Empty, hex.Select(h =>
+                Convert.ToString(
+                    Convert.ToInt32(h.ToString(), 16), 2
+                ).PadLeft(4, '0')));
             return result;
         }
 
-        public int[] BinStringToBinArray(string bin)
+        public bool[] BinStringToBinArray(string bin)
         {
-            List<int> result = new List<int>();
+            List<bool> result = new List<bool>();
             for (int i = 0; i < bin.Length; i++)
             {
-                result.Add(int.Parse(bin[i].ToString()));
+                result.Add(bin[i] != '0');
             }
+
             return result.ToArray();
         }
 
-        public int[] HexStringToBinArray(string hex)
+        public bool[] HexStringToBinArray(string hex)
         {
             return BinStringToBinArray(HexStringToBinString(hex));
         }
 
-        public string BinArrayToHex(int[] bin, int padding)
+        public string BinArrayToHex(bool[] bin, int padding)
         {
             string re = string.Empty;
             for (int i = 0; i < bin.Length; i++)
             {
-                re += bin[i].ToString();
+                re += Convert.ToInt16(bin[i]);
             }
-            if(padding == 0)
+
+            if (padding == 0)
             {
                 return Convert.ToUInt64(re, 2).ToString("X16");
             }
@@ -61,6 +65,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
             {
                 return Convert.ToUInt64(re, 2).ToString($"X{padding}");
             }
+
             //{
             //    return Convert.ToUInt64(re, 2).ToString("X8");
             //}
@@ -78,46 +83,48 @@ namespace laboratory_1.sources.mvvm.crypt.des
             //}
         }
 
-        public int[] SubArray(int[] src,int start, int end)
+        public bool[] SubArray(bool[] src, int start, int end)
         {
-            int[] temp = new int[end-start+1];
+            bool[] temp = new bool[end - start + 1];
             int index = 0;
             for (int i = start; i <= end; i++)
             {
                 temp[index] = src[i];
                 index++;
             }
+
             return temp;
         }
 
-        public int[][] GenerateRoundKey(int[] keys)
+        public bool[][] GenerateRoundKey(bool[] keys)
         {
-            int[][] result = new int[16][];
-            int[] tempkey = new int[56];
-            int[] leftTempKey = new int[28];
-            int[] rightTempKey= new int[28];
-            int[] roundkey;
+            bool[][] result = new bool[16][];
+            bool[] tempkey = new bool[56];
+            bool[] leftTempKey = new bool[28];
+            bool[] rightTempKey = new bool[28];
+            bool[] roundkey;
             Permute(keys, ref tempkey, DesConstants.ParityBitDrop);
             _cipherKey = BinArrayToHex(tempkey, 14);
             for (int i = 0; i < 16; i++)
             {
-                roundkey = new int[48];
+                roundkey = new bool[48];
                 leftTempKey = SubArray(tempkey, 0, 27);
                 rightTempKey = SubArray(tempkey, 28, 55);
                 ShiftLeft(ref leftTempKey, DesConstants.ScheduleBitShift[i]);
                 ShiftLeft(ref rightTempKey, DesConstants.ScheduleBitShift[i]);
-                tempkey = new int[56];
+                tempkey = new bool[56];
                 leftTempKey.CopyTo(tempkey, 0);
                 rightTempKey.CopyTo(tempkey, 28);
                 Permute(tempkey, ref roundkey, DesConstants.KeyCompressionTable);
                 result[i] = roundkey;
             }
+
             return result;
         }
 
-        public void ShiftLeft(ref int[] block, int numberOfShifts)
+        public void ShiftLeft(ref bool[] block, int numberOfShifts)
         {
-            int temp;
+            bool temp;
             for (int i = 0; i < numberOfShifts; i++)
             {
                 temp = block[0];
@@ -125,74 +132,79 @@ namespace laboratory_1.sources.mvvm.crypt.des
                 {
                     block[j - 1] = block[j];
                 }
-                block[block.Length-1] = temp;
+
+                block[block.Length - 1] = temp;
             }
         }
 
-        public void Swap(ref int[] leftBlock, ref int[] rightBlock)
+        public void Swap(ref bool[] leftBlock, ref bool[] rightBlock)
         {
-            int[] temp = leftBlock;
+            bool[] temp = leftBlock;
             leftBlock = rightBlock;
             rightBlock = temp;
         }
 
-        public void Permute(int[] input, ref int[] output, int[] ptable)
+        public void Permute(bool[] input, ref bool[] output, int[] ptable)
         {
             for (int i = 0; i < ptable.Length; i++)
             {
-                output[i] = input[ptable[i]-1];
+                output[i] = input[ptable[i] - 1];
             }
         }
 
-        private void SubstituteRound(ref int[] inBlock, int[,] sbox)
+        private void SubstituteRound(ref bool[] inBlock, int[,] sbox)
         {
             int temp = 3;
             int row = 0;
             int column = 0;
             for (int i = 1; i <= 4; i++)
             {
-                column += inBlock[i] * (int)Math.Pow(2, temp);
+                column += Convert.ToInt16(inBlock[i]) * (int)Math.Pow(2, temp);
                 temp--;
             }
-            row = 2 * inBlock[0] + inBlock[5];
+
+            row = 2 * Convert.ToInt16(inBlock[0]) + Convert.ToInt16(inBlock[5]);
             inBlock = HexStringToBinArray(Convert.ToString(sbox[row, column], 16));
         }
-        
-        private void Substitude(int[] inputBlock, ref int[] outputBlock)
+
+        private void Substitude(bool[] inputBlock, ref bool[] outputBlock)
         {
-            int[] temp;
-            int[] result = new int[32];
-            int[][,] sboxs = new int[][,] {DesConstants.Sbox1,DesConstants.Sbox2,DesConstants.Sbox3,DesConstants.Sbox4,
-                                           DesConstants.Sbox5,DesConstants.Sbox6,DesConstants.Sbox7,DesConstants.Sbox8};
+            bool[] temp;
+            bool[] result = new bool[32];
+            int[][,] sboxs = new int[][,]
+            {
+                DesConstants.Sbox1, DesConstants.Sbox2, DesConstants.Sbox3, DesConstants.Sbox4,
+                DesConstants.Sbox5, DesConstants.Sbox6, DesConstants.Sbox7, DesConstants.Sbox8
+            };
             for (int i = 0; i < 8; i++)
             {
                 temp = SubArray(inputBlock, i * 6, (i + 1) * 6 - 1);
                 SubstituteRound(ref temp, sboxs[i]);
-                temp.CopyTo(result, i*4);
+                temp.CopyTo(result, i * 4);
             }
 
             outputBlock = result;
         }
 
-        public void InitialPermutation(ref int[] input)
+        public void InitialPermutation(ref bool[] input)
         {
-            int[] temp = new int[64];
+            bool[] temp = new bool[64];
             Permute(input, ref temp, DesConstants.InitialPermutation);
             input = temp;
         }
 
-        public void FinalPermutation(ref int[] input)
+        public void FinalPermutation(ref bool[] input)
         {
-            int[] temp = new int[64];
+            bool[] temp = new bool[64];
             Permute(input, ref temp, DesConstants.FinalPermutation);
             input = temp;
         }
 
-        public void Function(int[] rightInput, ref int[] output, int[] roundKey)
+        public void Function(bool[] rightInput, ref bool[] output, bool[] roundKey)
         {
-            int[] temp = new int[48];
-            int[] temp2 = new int[32];
-            int[] temp3 = new int[32];
+            bool[] temp = new bool[48];
+            bool[] temp2 = new bool[32];
+            bool[] temp3 = new bool[32];
             Permute(rightInput, ref temp, DesConstants.ExpansionPermutation);
             temp = Xor(temp, roundKey);
             Substitude(temp, ref temp2);

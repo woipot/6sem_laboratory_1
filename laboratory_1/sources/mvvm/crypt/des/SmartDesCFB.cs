@@ -3,7 +3,7 @@ using System.IO;
 
 namespace laboratory_1.sources.mvvm.crypt.des
 {
-    public class SmartDesCFB : DesMain
+    public class SmartDesCFB : Des
     {
         private string _iv;
 

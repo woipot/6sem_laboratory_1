@@ -1,39 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace laboratory_1.sources.mvvm.crypt.des
 {
-    public class DesMain
+    public class Des
     {
         protected DesModules Modules;
         protected string Key;
         protected string _cipherText;
         protected string _decryptedText;
-        private int[][] _roundKeys;
+        private bool[][] _roundKeys;
         private string _traceInit;
         private string _traceFinal;
         private string[][] _traceRound;
         private string _cipherKey;
-        private int[] _finalCipherArr;
-        private int[] _finalDecryptedArr;
+        private bool[] _finalCipherArr;
+        private bool[] _finalDecryptedArr;
 
         public string CipherText => _cipherText;
         public string DecryptText => _decryptedText;
-        public string TraceInit => _traceInit;
-        public string TraceFinal => _traceFinal;
-        public string CipherKey => _cipherKey;
-        public string[][] TraceRound => _traceRound;
 
-        public DesMain(string key)
+
+        public Des(string key)
         {
             this.Key = key;
             _cipherText = "";
             _decryptedText = "";
-            _roundKeys = new int[16][];
+            _roundKeys = new bool[16][];
             _traceInit = "";
             _traceFinal = "";
             _cipherKey = "";
@@ -80,7 +74,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
 
                     if (counter != 8 && counter != 0)
                     {
-                        for(var i = counter; i < 8; i++)
+                        for (var i = counter; i < 8; i++)
                             hex += $"{(byte)0:X2}";
                         EncryptRound(hex);
                         writer.Write(StringToByteArray(CipherText));
@@ -91,22 +85,22 @@ namespace laboratory_1.sources.mvvm.crypt.des
 
         public void EncryptRound(string hexString)
         {
-            int[] binArray = Modules.HexStringToBinArray(hexString);
+            bool[] binArray = Modules.HexStringToBinArray(hexString);
             EncryptRound(binArray);
         }
 
-        public void EncryptRound(int[] binArray)
+        public void EncryptRound(bool[] binArray)
         {
-            
+
             Modules.InitialPermutation(ref binArray);
-            _traceInit = Modules.BinArrayToHex(binArray,0);
-            
-            int[] left = Modules.SubArray(binArray, 0, 31);
-            int[] right = Modules.SubArray(binArray, 32, 63);
-            
-            for(int i = 0; i < 16; i++)
+            _traceInit = Modules.BinArrayToHex(binArray, 0);
+
+            bool[] left = Modules.SubArray(binArray, 0, 31);
+            bool[] right = Modules.SubArray(binArray, 32, 63);
+
+            for (int i = 0; i < 16; i++)
             {
-                int[] outputF = new int[32];
+                bool[] outputF = new bool[32];
 
                 Modules.Function(right, ref outputF, _roundKeys[i]);
 
@@ -119,16 +113,16 @@ namespace laboratory_1.sources.mvvm.crypt.des
                                              Modules.BinArrayToHex(right,8),
                                              Modules.BinArrayToHex(_roundKeys[i],12)};
             }
-            
-            int[] final = new int[64];
+
+            bool[] final = new bool[64];
             left.CopyTo(final, 0);
             right.CopyTo(final, 32);
-            _traceFinal = Modules.BinArrayToHex(final,0);
+            _traceFinal = Modules.BinArrayToHex(final, 0);
 
             Modules.FinalPermutation(ref final);
 
             _finalCipherArr = final;
-            _cipherText = Modules.BinArrayToHex(final,0);
+            _cipherText = Modules.BinArrayToHex(final, 0);
         }
 
         public void DecryptFile(string filePathFrom, string filePathTo)
@@ -170,33 +164,33 @@ namespace laboratory_1.sources.mvvm.crypt.des
 
         public void Decrypt(string hexString)
         {
-            int[] binArray = Modules.HexStringToBinArray(hexString);
+            bool[] binArray = Modules.HexStringToBinArray(hexString);
             Decrypt(binArray);
         }
 
 
-        public void Decrypt(int[] binArray)
+        public void Decrypt(bool[] binArray)
         {
             Modules.InitialPermutation(ref binArray);
             _traceInit = Modules.BinArrayToHex(binArray, 0);
 
-            int[] left = Modules.SubArray(binArray, 0, 31);
-            int[] right = Modules.SubArray(binArray, 32, 63);
+            bool[] left = Modules.SubArray(binArray, 0, 31);
+            bool[] right = Modules.SubArray(binArray, 32, 63);
             for (int i = 15; i >= 0; i--)
             {
-                int[] outputF = new int[32];
+                bool[] outputF = new bool[32];
                 Modules.Function(right, ref outputF, _roundKeys[i]);
                 left = Modules.Xor(outputF, left);
 
                 if (i > 0)
                     Modules.Swap(ref left, ref right);
 
-                _traceRound[Math.Abs(i-15)] = new string[]{Modules.BinArrayToHex(left,8),
+                _traceRound[Math.Abs(i - 15)] = new[]{Modules.BinArrayToHex(left,8),
                                              Modules.BinArrayToHex(right,8),
                                              Modules.BinArrayToHex(_roundKeys[i],12)};
             }
 
-            int[] final = new int[64];
+            bool[] final = new bool[64];
             left.CopyTo(final, 0);
             right.CopyTo(final, 32);
             _traceFinal = Modules.BinArrayToHex(final, 0);
@@ -204,7 +198,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
             Modules.FinalPermutation(ref final);
             _finalDecryptedArr = final;
 
-            _decryptedText = Modules.BinArrayToHex(final,0);
+            _decryptedText = Modules.BinArrayToHex(final, 0);
         }
     }
 }

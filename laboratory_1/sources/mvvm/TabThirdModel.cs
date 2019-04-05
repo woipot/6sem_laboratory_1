@@ -191,7 +191,7 @@ namespace laboratory_1.sources.mvvm
         {
             if (ECBMode)
             {
-                var des = new DesMain(DESKey);
+                var des = new Des(DESKey);
                 des.Create();
                 des.EncryptFile(fileName, fileName + "destmp");
             }else if (CBCMode)
@@ -221,7 +221,7 @@ namespace laboratory_1.sources.mvvm
         {
             if (ECBMode)
             {
-                var des = new DesMain(DESKey);
+                var des = new Des(DESKey);
                 des.Create();
                 des.DecryptFile(fileName, fileName + "destmp");
             }
