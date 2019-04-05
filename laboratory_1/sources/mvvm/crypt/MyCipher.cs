@@ -1,11 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using laboratory_1.sources.ext;
 
 namespace laboratory_1.sources.mvvm.crypt
 {
-    public static class MyCipher
+    public class MyCipher : IEncryption
     {
+        private int _currentProgress = 0;
         private static List<BitArray> _myCryptArr = new List<BitArray>
         {
             new BitArray(new []{false, false, true, true}),
@@ -85,5 +88,94 @@ namespace laboratory_1.sources.mvvm.crypt
 
             return (byte)resultArr.ToInt();
         }
+
+
+        public void Decrypt(string fromFile, string toFile)
+        {
+            _currentProgress = 0;
+            try
+            {
+                using (var reader = new BinaryReader(File.Open(fromFile, FileMode.Open)))
+                {
+                    using (var writer = new BinaryWriter(File.Open(toFile + "tmp", FileMode.OpenOrCreate)))
+                    {
+                        var byteList = new List<byte>();
+                        while (true)
+                        {
+                            try
+                            {
+                                var area = reader.ReadByte();
+                                var newByte = DecryptByte(area);
+                                _currentProgress++;
+                                ProgreeUpdated?.Invoke(this, _currentProgress);
+                                byteList.Add(newByte);
+                            }
+                            catch (EndOfStreamException e)
+                            {
+                                break;
+                            }
+                        }
+                        writer.Write(byteList.ToArray());
+                    }
+                }
+                File.Delete(fromFile);
+                File.Move(toFile, fromFile);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public void Encrypt(string fromFile, string toFile)
+        {
+            _currentProgress = 0;
+            try
+            {
+                using (var reader = new BinaryReader(File.Open(fromFile, FileMode.Open)))
+                {
+                    using (var writer = new BinaryWriter(File.Open(toFile, FileMode.OpenOrCreate)))
+                    {
+                        var byteList = new List<byte>();
+                        while (true)
+                        {
+                            try
+                            {
+                                var area = reader.ReadByte();
+                                var newByte = MyCipher.EncryptByte(area);
+                                byteList.Add(newByte);
+                                _currentProgress++;
+                                ProgreeUpdated?.Invoke(this, _currentProgress);
+                            }
+                            catch (EndOfStreamException e)
+                            {
+                                break;
+                            }
+                        }
+                        writer.Write(byteList.ToArray());
+                    }
+                }
+                File.Delete(fromFile);
+                File.Move(toFile, fromFile);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
+        public long GetCurrentProgressBytes()
+        {
+            return _currentProgress;
+        }
+
+        public long GetMaximum(string fileName)
+        {
+            return  new FileInfo(fileName).Length;
+        }
+
+        public event EventHandler<int> ProgreeUpdated;
     }
 }

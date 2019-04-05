@@ -112,6 +112,7 @@
     <Compile Include="sources\mvvm\crypt\des\DesOFB.cs" />
     <Compile Include="sources\mvvm\crypt\des\DesCFB.cs" />
     <Compile Include="sources\mvvm\crypt\des\DesCBC.cs" />
+    <Compile Include="sources\mvvm\crypt\IEncryption.cs" />
     <Compile Include="sources\mvvm\crypt\MyCipher.cs" />
     <Compile Include="sources\mvvm\crypt\RC4.cs" />
     <Compile Include="sources\mvvm\crypt\Vernam.cs" />

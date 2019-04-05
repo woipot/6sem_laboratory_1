@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,70 +20,28 @@ namespace laboratory_1.sources.mvvm
         {
             try
             {
-                using (var reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
-                {
-                    using (var writer = new BinaryWriter(File.Open(filePath + "tmp", FileMode.OpenOrCreate)))
-                    {
-                        var byteList = new List<byte>();
-                        while (true)
-                        {
-                            try
-                            {
-                                var area = reader.ReadByte();
-                                var newByte = MyCipher.EncryptByte(area);
-                                byteList.Add(newByte);
-                            }
-                            catch (EndOfStreamException e)
-                            {
-                                break;
-                            }
-                        }
-                        writer.Write(byteList.ToArray());
-                    }
-                }
+                var cipher = new MyCipher();
+                MyEncryptionMax = (int)cipher.GetMaximum(filePath);
+                DoFuncByWorker(cipher, MyEncryptionUpdate, filePath, filePath + "tmp");
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
             }
-
-            File.Delete(filePath);
-            File.Move(filePath + "tmp", filePath);
         }
 
         public void MyDecrypt(string filePath)
         {
             try
             {
-                using (var reader = new BinaryReader(File.Open(filePath, FileMode.Open)))
-                {
-                    using (var writer = new BinaryWriter(File.Open(filePath + "tmp", FileMode.OpenOrCreate)))
-                    {
-                        var byteList = new List<byte>();
-                        while (true)
-                        {
-                            try
-                            {
-                                var area = reader.ReadByte();
-                                var newByte = MyCipher.DecryptByte(area);
-                                byteList.Add(newByte);
-                            }
-                            catch (EndOfStreamException e)
-                            {
-                                break;
-                            }
-                        }
-                        writer.Write(byteList.ToArray());
-                    }
-                }
+                var cipher = new MyCipher();
+                MyEncryptionMax = (int)cipher.GetMaximum(filePath);
+                DoFuncByWorker(cipher, MyEncryptionUpdate, filePath, filePath + "tmp", false);
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e);
             }
-
-            File.Delete(filePath);
-            File.Move(filePath + "tmp", filePath);
         }
 
 
@@ -246,6 +205,66 @@ namespace laboratory_1.sources.mvvm
             File.Delete(fileName);
             File.Move(fileName + "destmp", fileName);
         }
+
+
+        public void DoFuncByWorker(IEncryption act, Action<int> updateFunc, string fromFile, string toFile, bool encrypt = true, bool rewrite = true)
+        {
+
+            BackgroundWorker worker = new BackgroundWorker();
+            worker.WorkerReportsProgress = true;
+            worker.DoWork += (t, f) =>
+            {
+                act.ProgreeUpdated += (o, i) => worker.ReportProgress(i);
+                if(encrypt)
+                    act.Encrypt(fromFile, toFile);
+                else
+                    act.Decrypt(fromFile, toFile);
+
+                
+               
+            };
+            worker.ProgressChanged += (s, e) => updateFunc.Invoke(e.ProgressPercentage);
+            worker.RunWorkerAsync();
+        }
+
+        public void MyEncryptionUpdate(int value)
+        {
+            MyEncryptionValue = value;
+        }
+
+        public int MyEncryptionValue { get; set; }
+
+        public int MyEncryptionMax { get; set; } = 100;
+
+
+        public void VernamUpdate(int value)
+        {
+            VernamValue = value;
+        }
+
+        public int VernamValue { get; set; }
+        public int VernamMax { get; set; } = 100;
+
+
+        public void DesUpdate(int value)
+        {
+            DesValue = value;
+        }
+
+        public int DesValue { get; set; }
+
+        public int DesMax { get; set; } = 100;
+
+
+
+        public void RC4Update(int value)
+        {
+            RC4Value = value;
+        }
+
+        public int RC4Value { get; set; } = 0;
+
+        public int RC4Max { get; set; } = 100;
     }
 
 }

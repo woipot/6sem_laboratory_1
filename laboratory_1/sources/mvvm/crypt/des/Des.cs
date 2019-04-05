@@ -11,12 +11,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
         protected string _cipherText;
         protected string _decryptedText;
         private bool[][] _roundKeys;
-        private string _traceInit;
-        private string _traceFinal;
         private string[][] _traceRound;
-        private string _cipherKey;
-        private bool[] _finalCipherArr;
-        private bool[] _finalDecryptedArr;
 
         public string CipherText => _cipherText;
         public string DecryptText => _decryptedText;
@@ -28,9 +23,6 @@ namespace laboratory_1.sources.mvvm.crypt.des
             _cipherText = "";
             _decryptedText = "";
             _roundKeys = new bool[16][];
-            _traceInit = "";
-            _traceFinal = "";
-            _cipherKey = "";
             _traceRound = new string[16][];
         }
 
@@ -38,7 +30,6 @@ namespace laboratory_1.sources.mvvm.crypt.des
         {
             Modules = new DesModules();
             _roundKeys = Modules.GenerateRoundKey(Modules.HexStringToBinArray(Key));
-            _cipherKey = Modules.CipherKey;
         }
 
         public static byte[] StringToByteArray(string hex)
@@ -93,7 +84,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
         {
 
             Modules.InitialPermutation(ref binArray);
-            _traceInit = Modules.BinArrayToHex(binArray, 0);
+            Modules.BinArrayToHex(binArray, 0);
 
             bool[] left = Modules.SubArray(binArray, 0, 31);
             bool[] right = Modules.SubArray(binArray, 32, 63);
@@ -117,11 +108,10 @@ namespace laboratory_1.sources.mvvm.crypt.des
             bool[] final = new bool[64];
             left.CopyTo(final, 0);
             right.CopyTo(final, 32);
-            _traceFinal = Modules.BinArrayToHex(final, 0);
+            Modules.BinArrayToHex(final, 0);
 
             Modules.FinalPermutation(ref final);
 
-            _finalCipherArr = final;
             _cipherText = Modules.BinArrayToHex(final, 0);
         }
 
@@ -172,7 +162,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
         public void Decrypt(bool[] binArray)
         {
             Modules.InitialPermutation(ref binArray);
-            _traceInit = Modules.BinArrayToHex(binArray, 0);
+            Modules.BinArrayToHex(binArray, 0);
 
             bool[] left = Modules.SubArray(binArray, 0, 31);
             bool[] right = Modules.SubArray(binArray, 32, 63);
@@ -193,10 +183,9 @@ namespace laboratory_1.sources.mvvm.crypt.des
             bool[] final = new bool[64];
             left.CopyTo(final, 0);
             right.CopyTo(final, 32);
-            _traceFinal = Modules.BinArrayToHex(final, 0);
+            Modules.BinArrayToHex(final, 0);
 
             Modules.FinalPermutation(ref final);
-            _finalDecryptedArr = final;
 
             _decryptedText = Modules.BinArrayToHex(final, 0);
         }

@@ -4,7 +4,7 @@
         xmlns:sources="clr-namespace:laboratory_1.sources"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:util="clr-namespace:laboratory_1.sources.mvvm.util"
-
+        
         Title="Crypto" Height="450" Width="800" Background="#FF2D2D30" BorderBrush="#FF2D2D30">
     <Window.DataContext>
         <sources:MainViewModel/>
@@ -308,7 +308,7 @@
                     <Label Content="MyEncription" HorizontalAlignment="Center"/>
                     <Button Content="Encrypt" Command="{Binding MyEncryptionAction}" Margin="0,20"/>
                     <Button Content="Decrypt" Command="{Binding MyDecryptionAction}" Margin="0,20"/>
-                    <ProgressBar MinHeight="20" />
+                    <ProgressBar MinHeight="20" Minimum="0" Value="{Binding MyEncryptionValue, Mode=OneWay}" Maximum="{Binding MyEncryptionMax, Mode=OneWay}"/>
                 </StackPanel>
 
                 <StackPanel Margin="20" Grid.Column = "1">

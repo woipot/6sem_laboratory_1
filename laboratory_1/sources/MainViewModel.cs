@@ -471,5 +471,22 @@ namespace laboratory_1.sources
         }
 
         #endregion
+
+
+        public int MyEncryptionValue => _thirdModel.MyEncryptionValue;
+
+        public int MyEncryptionMax => _thirdModel.MyEncryptionMax;
+
+
+        public int VernamValue => _thirdModel.VernamValue;
+        public int VernamMax => _thirdModel.VernamMax;
+
+
+        public int DesValue => _thirdModel.DesValue;
+        public int DesMax => _thirdModel.DesMax;
+
+
+        public int RC4Value => _thirdModel.RC4Value;
+        public int RC4Max => _thirdModel.RC4Max;
     }
 }
