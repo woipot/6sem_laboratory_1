@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using laboratory_1.sources.mvvm;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
@@ -8,7 +9,7 @@ using Xceed.Wpf.Toolkit;
 
 namespace laboratory_1.sources
 {
-    class MainViewModel : BindableBase
+    class MainViewModel :BindableBase
     {
         private readonly FirstTabModel _firstModel;
         private readonly TabSecondModel _secondModel;
@@ -310,22 +311,29 @@ namespace laboratory_1.sources
 
         private void MyEncryption()
         {
-            var myDialog = new OpenFileDialog();
-            myDialog.CheckFileExists = true;
-            if (myDialog.ShowDialog() == true)
+            Task.Factory.StartNew(() =>
             {
-                 _thirdModel.MyEncrypt(myDialog.FileName);
-            }
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
+                {
+                    _thirdModel.MyEncrypt(myDialog.FileName);
+                }
+            });
+
         }
  
         private void MyDecription()
         {
-            var myDialog = new OpenFileDialog();
-            myDialog.CheckFileExists = true;
-            if (myDialog.ShowDialog() == true)
+            Task.Factory.StartNew(() =>
             {
-                _thirdModel.MyDecrypt(myDialog.FileName);
-            }
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
+                {
+                    _thirdModel.MyDecrypt(myDialog.FileName);
+                }
+            });
         }
 
         #endregion
@@ -342,19 +350,22 @@ namespace laboratory_1.sources
 
         private void VernamStart()
         {
-            if (VernamKey.Length > 0)
+            Task.Factory.StartNew(() =>
             {
-                var myDialog = new OpenFileDialog();
-                myDialog.CheckFileExists = true;
-                if (myDialog.ShowDialog() == true)
+                if (VernamKey.Length > 0)
                 {
-                    _thirdModel.StartVernam(myDialog.FileName);
+                    var myDialog = new OpenFileDialog();
+                    myDialog.CheckFileExists = true;
+                    if (myDialog.ShowDialog() == true)
+                    {
+                        _thirdModel.StartVernam(myDialog.FileName);
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Invalid key");
-            }
+                else
+                {
+                    MessageBox.Show("Invalid key");
+                }
+            });
         }
 
         #endregion
@@ -368,6 +379,17 @@ namespace laboratory_1.sources
         {
             get => _thirdModel.DESKey;
             set => _thirdModel.DESKey = value;
+        }
+
+        public string DESIv
+        {
+            get => _thirdModel.DESIV;
+            set => _thirdModel.DESIV = value;
+        }
+
+        public bool IvIsEnabled
+        {
+            get => !ECBMode;
         }
 
         public bool ECBMode
@@ -395,19 +417,22 @@ namespace laboratory_1.sources
         {
             if (DESKey.Length == 16)
             {
-                var myDialog = new OpenFileDialog();
-                myDialog.CheckFileExists = true;
-                if (myDialog.ShowDialog() == true)
+                Task.Factory.StartNew(() =>
                 {
-                    try
+                    var myDialog = new OpenFileDialog();
+                    myDialog.CheckFileExists = true;
+                    if (myDialog.ShowDialog() == true)
                     {
-                        _thirdModel.DESEncode(myDialog.FileName);
+                        try
+                        {
+                            _thirdModel.DESEncode(myDialog.FileName);
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Invalid key");
+                        }
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Invalid key");
-                    }
-                }
+                });
             }
             else
             {
@@ -419,20 +444,23 @@ namespace laboratory_1.sources
         {
             if (DESKey.Length == 16)
             {
-                var myDialog = new OpenFileDialog();
-                myDialog.CheckFileExists = true;
-                if (myDialog.ShowDialog() == true)
+                Task.Factory.StartNew(() =>
                 {
-                    try
+                    var myDialog = new OpenFileDialog();
+                    myDialog.CheckFileExists = true;
+                    if (myDialog.ShowDialog() == true)
                     {
-                        _thirdModel.DESEncode(myDialog.FileName, true);
+                        try
+                        {
+                            _thirdModel.DESEncode(myDialog.FileName, true);
+                        }
+                        catch (Exception e)
+                        {
+                            MessageBox.Show("Invalid key");
+                        }
+
                     }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show("Invalid key");
-                    }
-                   
-                }
+                });
             }
             else
             {
@@ -457,12 +485,15 @@ namespace laboratory_1.sources
         {
             if (RC4Key.Length > 0)
             {
-                var myDialog = new OpenFileDialog();
-                myDialog.CheckFileExists = true;
-                if (myDialog.ShowDialog() == true)
+                Task.Factory.StartNew(() =>
                 {
-                    _thirdModel.RC4(myDialog.FileName);
-                }
+                    var myDialog = new OpenFileDialog();
+                    myDialog.CheckFileExists = true;
+                    if (myDialog.ShowDialog() == true)
+                    {
+                        _thirdModel.RC4(myDialog.FileName);
+                    }
+                });
             }
             else
             {

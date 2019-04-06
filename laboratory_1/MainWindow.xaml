@@ -327,9 +327,22 @@
                 <StackPanel Margin="20" Grid.Column = "2">
                     <Label Content="#11" HorizontalAlignment="Center"/>
                     <Label Content="DES" HorizontalAlignment="Center"/>
+
+                    <TextBlock Text="KEY:"/>
                     <TextBox>
                         <TextBox.Text>
                             <Binding Path="DESKey" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <util:DesKeyValidationRules/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+
+                    <TextBlock Text="IV:"/>
+                    <TextBox IsEnabled="{Binding IvIsEnabled}">
+                        <TextBox.Text>
+                            <Binding Path="DESIv" UpdateSourceTrigger="PropertyChanged">
                                 <Binding.ValidationRules>
                                     <util:DesKeyValidationRules/>
                                 </Binding.ValidationRules>
