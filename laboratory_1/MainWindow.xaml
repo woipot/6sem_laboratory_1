@@ -155,6 +155,8 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 
+                
+                
                 <Border BorderThickness="1">
                     <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20">
                         <StackPanel Orientation="Vertical">
@@ -301,14 +303,18 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>     
-                
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
                 <StackPanel Margin="20">
                     <Label Content="#9" HorizontalAlignment="Center"/>
                     <Label Content="MyEncription" HorizontalAlignment="Center"/>
-                    <Button Content="Encrypt" Command="{Binding MyEncryptionAction}" Margin="0,20"/>
-                    <Button Content="Decrypt" Command="{Binding MyDecryptionAction}" Margin="0,20"/>
-                    <ProgressBar MinHeight="20" />
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Encrypt" Command="{Binding MyEncryptionAction}" Margin="0,20"/>
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Decrypt" Command="{Binding MyDecryptionAction}" Margin="0,20"/>
                 </StackPanel>
 
                 <StackPanel Margin="20" Grid.Column = "1">
@@ -320,7 +326,7 @@
                         </TextBox.Text>
                     </TextBox>
 
-                    <Button Content="Start" Command="{Binding VernamStartAction}" Margin="0,20"/>
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Start" Command="{Binding VernamStartAction}" Margin="0,20"/>
                 </StackPanel>
 
 
@@ -350,13 +356,15 @@
                         </TextBox.Text>
                     </TextBox>
 
-                    <Button Content="Encode" Command="{Binding DESEncodeAction}" Margin="0,20"/>
-                    <Button Content="Decode" Command="{Binding DESDecodeAction}" Margin="0,20"/>
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Encode" Command="{Binding DESEncodeAction}" Margin="0,20"/>
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Decode" Command="{Binding DESDecodeAction}" Margin="0,20"/>
                    
+                    <UniformGrid  Columns="2">
                     <RadioButton Content="ECB" IsChecked="{Binding ECBMode}"/>
                     <RadioButton Content="CBC" IsChecked="{Binding CBCMode}"/>
                     <RadioButton Content="CFB" IsChecked="{Binding CFBMode}"/>
                     <RadioButton Content="OFB" IsChecked="{Binding OFBMode}"/>
+                    </UniformGrid>
                 </StackPanel>
 
                 <StackPanel Margin="20" Grid.Column="3">
@@ -371,9 +379,12 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    
-                    <Button Content="Start" Command="{Binding RC4StartAction}" Margin="0,20"/>
+
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Start" Command="{Binding RC4StartAction}" Margin="0,20"/>
                 </StackPanel>
+
+                <ProgressBar Grid.Column="0" MinHeight="20" Grid.Row="1" Grid.ColumnSpan="4" Margin="20,0" IsIndeterminate="{Binding IsProcess, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"/>
+
             </Grid>
         </TabItem>
     </TabControl>

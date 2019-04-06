@@ -303,6 +303,10 @@ namespace laboratory_1.sources
         #endregion
 
 
+        public  bool IsProcess { get; set; }
+
+        public bool IsButtonsEnabled => !IsProcess;
+
         #region Tab 3 part 9
 
         public DelegateCommand MyEncryptionAction { get; }
@@ -313,12 +317,14 @@ namespace laboratory_1.sources
         {
             Task.Factory.StartNew(() =>
             {
+                App.Current.Dispatcher.Invoke(() => IsProcess = true);
                 var myDialog = new OpenFileDialog();
                 myDialog.CheckFileExists = true;
                 if (myDialog.ShowDialog() == true)
                 {
                     _thirdModel.MyEncrypt(myDialog.FileName);
                 }
+                App.Current.Dispatcher.Invoke(() => IsProcess = false);
             });
 
         }
@@ -327,12 +333,16 @@ namespace laboratory_1.sources
         {
             Task.Factory.StartNew(() =>
             {
+                App.Current.Dispatcher.Invoke(() => IsProcess = true);
+
                 var myDialog = new OpenFileDialog();
                 myDialog.CheckFileExists = true;
                 if (myDialog.ShowDialog() == true)
                 {
                     _thirdModel.MyDecrypt(myDialog.FileName);
                 }
+                App.Current.Dispatcher.Invoke(() => IsProcess = false);
+
             });
         }
 
@@ -352,6 +362,8 @@ namespace laboratory_1.sources
         {
             Task.Factory.StartNew(() =>
             {
+                App.Current.Dispatcher.Invoke(() => IsProcess = true);
+
                 if (VernamKey.Length > 0)
                 {
                     var myDialog = new OpenFileDialog();
@@ -365,6 +377,8 @@ namespace laboratory_1.sources
                 {
                     MessageBox.Show("Invalid key");
                 }
+                App.Current.Dispatcher.Invoke(() => IsProcess = false);
+
             });
         }
 
@@ -419,6 +433,8 @@ namespace laboratory_1.sources
             {
                 Task.Factory.StartNew(() =>
                 {
+                    App.Current.Dispatcher.Invoke(() => IsProcess = true);
+
                     var myDialog = new OpenFileDialog();
                     myDialog.CheckFileExists = true;
                     if (myDialog.ShowDialog() == true)
@@ -432,6 +448,8 @@ namespace laboratory_1.sources
                             MessageBox.Show("Invalid key");
                         }
                     }
+                    App.Current.Dispatcher.Invoke(() => IsProcess = false);
+
                 });
             }
             else
@@ -446,6 +464,8 @@ namespace laboratory_1.sources
             {
                 Task.Factory.StartNew(() =>
                 {
+                    App.Current.Dispatcher.Invoke(() => IsProcess = true);
+
                     var myDialog = new OpenFileDialog();
                     myDialog.CheckFileExists = true;
                     if (myDialog.ShowDialog() == true)
@@ -460,6 +480,8 @@ namespace laboratory_1.sources
                         }
 
                     }
+                    App.Current.Dispatcher.Invoke(() => IsProcess = false);
+
                 });
             }
             else
