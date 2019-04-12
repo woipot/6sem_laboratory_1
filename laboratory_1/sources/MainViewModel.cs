@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using laboratory_1.sources.mvvm;
 using Microsoft.Practices.Prism.Commands;
@@ -429,32 +433,68 @@ namespace laboratory_1.sources
 
         private void DESEncode()
         {
+            BindingTimeTest = "";
             if (DESKey.Length == 16)
             {
-                Task.Factory.StartNew(() =>
+                var myDialog = new OpenFileDialog();
+                myDialog.CheckFileExists = true;
+                if (myDialog.ShowDialog() == true)
                 {
-                    App.Current.Dispatcher.Invoke(() => IsProcess = true);
-
-                    var myDialog = new OpenFileDialog();
-                    myDialog.CheckFileExists = true;
-                    if (myDialog.ShowDialog() == true)
+                    Task.Factory.StartNew(() =>
                     {
+                        App.Current.Dispatcher.Invoke(() => IsProcess = true);
+
                         try
                         {
+                            var myStopwatch = new Stopwatch();
+                            myStopwatch.Start();
                             _thirdModel.DESEncode(myDialog.FileName);
+                            myStopwatch.Stop();
+
+
+                            App.Current.Dispatcher.Invoke(() =>
+                                BindingTimeTest += $" My : {myStopwatch.ElapsedMilliseconds};");
                         }
                         catch (Exception e)
                         {
                             MessageBox.Show("Invalid key");
                         }
-                    }
-                    App.Current.Dispatcher.Invoke(() => IsProcess = false);
 
-                });
+                        App.Current.Dispatcher.Invoke(() => IsProcess = false);
+
+                    });
+
+                    var stopwatch = new Stopwatch();
+                    stopwatch.Start();
+                    DesEncrypt(myDialog.FileName, myDialog.FileName + "satndard", "12345678");
+                    stopwatch.Stop();
+                 BindingTimeTest += $" Original : { stopwatch.ElapsedMilliseconds}";
+                }
             }
             else
             {
                 MessageBox.Show("Invalid key");
+            }
+
+        }
+
+        public void DesEncrypt(string pToEncrypt, string toFile, string sKey)
+        {
+            pToEncrypt = File.ReadAllText(pToEncrypt);
+            DESCryptoServiceProvider des = new DESCryptoServiceProvider();
+            byte[] inputByteArray = Encoding.Default.GetBytes(pToEncrypt);
+            des.Key = ASCIIEncoding.ASCII.GetBytes(sKey);
+            des.IV = ASCIIEncoding.ASCII.GetBytes(sKey);
+            MemoryStream ms = new MemoryStream();
+            CryptoStream cs = new CryptoStream(ms, des.CreateEncryptor(), CryptoStreamMode.Write);
+            cs.Write(inputByteArray, 0, inputByteArray.Length);
+            cs.FlushFinalBlock();
+            using (var writer = new BinaryWriter(File.Open(toFile, FileMode.OpenOrCreate)))
+            {
+                foreach (byte b in ms.ToArray())
+                {
+                    writer.Write(b);
+                }
             }
         }
 
@@ -490,6 +530,8 @@ namespace laboratory_1.sources
             }
         }
 
+
+        public string BindingTimeTest { get; private set; }
         #endregion
 
 
@@ -502,6 +544,8 @@ namespace laboratory_1.sources
             get => _thirdModel.RC4Key;
             set => _thirdModel.RC4Key = value;
         }
+
+        
 
         private void RC4Start()
         {

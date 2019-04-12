@@ -49,6 +49,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
                 .ToArray();
         }
 
+
         public void EncryptFile(string filePathFrom, string filePathTo)
         {
             using (var reader = new FileStream(filePathFrom, FileMode.Open))
@@ -82,6 +83,7 @@ namespace laboratory_1.sources.mvvm.crypt.des
                 }
             }
         }
+
 
         public void EncryptRound(string hexString)
         {

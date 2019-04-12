@@ -357,7 +357,7 @@
                     </TextBox>
 
                     <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Encode" Command="{Binding DESEncodeAction}" Margin="0,20"/>
-                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Decode" Command="{Binding DESDecodeAction}" Margin="0,20"/>
+                    <Button IsEnabled="{Binding IsButtonsEnabled, UpdateSourceTrigger = PropertyChanged, Mode=OneWay}" Content="Decode" Command="{Binding DESDecodeAction}"/>
                    
                     <UniformGrid  Columns="2">
                     <RadioButton Content="ECB" IsChecked="{Binding ECBMode}"/>
@@ -365,6 +365,8 @@
                     <RadioButton Content="CFB" IsChecked="{Binding CFBMode}"/>
                     <RadioButton Content="OFB" IsChecked="{Binding OFBMode}"/>
                     </UniformGrid>
+                    
+                    <TextBlock Text="{Binding BindingTimeTest}"/>
                 </StackPanel>
 
                 <StackPanel Margin="20" Grid.Column="3">
